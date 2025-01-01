@@ -86,8 +86,7 @@ hostrange=$(ip -o -f inet addr show eth0 | awk '{print $4}' | sed 's/\.[0-9]\+\/
 
 timezone=$(readlink /etc/localtime | sed 's|.*/zoneinfo/||')
 
-echo "setting .env file variables uid to '$userid', gid to '$groupid' and vgid to '$videodrivergroupid'..."
-
+echo "setting .env file variables..."
 touch $envfiledockercompose
 
 declare -A env_vars=(
@@ -100,6 +99,8 @@ declare -A env_vars=(
 )
 
 for var in "${!env_vars[@]}"; do
+    echo "setting $var=${env_vars[$var]}"
+
     if grep -q "^$var=" $envfiledockercompose; then
         sed -i "/^$var=/c\\$var=${env_vars[$var]} $modifiedonbycomment" $envfiledockercompose
     else
