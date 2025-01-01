@@ -110,7 +110,7 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
 
 Transcoding settings in jellyfin admin dashboard, under <http://jellyfin.yourinternal.domain.wow/web/#/dashboard/playback/transcoding>. Specific for each CPU, assumes you're using a [Gemini Lake Refresh](https://en.wikipedia.org/wiki/Goldmont_Plus#Desktop_processors_(Gemini_Lake_Refresh)) model. Check for `init_hw_device` in logs to confirm it's working.
 
-Hardware acceleleration: `Intel QuickSync`
+Hardware acceleration: `Intel QuickSync`
 
 Enable hardware decoding for:
 
