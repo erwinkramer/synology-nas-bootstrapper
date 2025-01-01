@@ -70,7 +70,7 @@ A Synology NAS, including:
 
 Place the entire project (repo) structure inside of your NAS with path `/volume1/docker/projects` (replace `volume1` with your own volume). You end up with `/volume1/docker/projects/garden`.
 
-Change the filename of [.env.example](.env.example) to `.env`.
+Change the filename of [.env.example](garden/.env.example) to `.env`.
 
 ### Tasks
 
