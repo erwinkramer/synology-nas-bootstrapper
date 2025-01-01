@@ -25,6 +25,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${host_data_config_path}:/data
+    labels:
+      caddy: ${public_protocol}x.${public_domain}
+      caddy.reverse_proxy: "${private_ip}:5000" #built-in DSM portal outside of docker
 
   duckdns:
     container_name: duckdns

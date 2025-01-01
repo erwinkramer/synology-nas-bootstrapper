@@ -21,6 +21,7 @@ dockerfolders=(
 )
 datafolders=(
     "media/movies"
+    "media/images"
     "downloads"
     "config/synology"
     "config/qBittorrent"
@@ -80,6 +81,9 @@ userid=$(synouser --get $username | awk -F "[][{}]" '/User uid/ { print $2 }')
 groupid=$(synogroup --get $groupname | awk -F "[][{}]" '/Group ID/ { print $2 }')
 videodrivergroupid=$(id -g videodriver)
 
+hostip=$(ip route get 1 | awk '{print $NF;exit}')
+hostrange=$(ip -o -f inet addr show eth0 | awk '{print $4}' | sed 's/\.[0-9]\+\//.0\//')
+
 echo "setting .env file variables uid to '$userid', gid to '$groupid' and vgid to '$videodrivergroupid'..."
 
 touch $envfiledockercompose
@@ -99,6 +103,18 @@ if grep -q "^vgid=" $envfiledockercompose; then
     sed -i "/^vgid=/c\vgid=$videodrivergroupid $modifiedonbycomment" $envfiledockercompose
 else
     echo "vgid=$videodrivergroupid $modifiedonbycomment" >> $envfiledockercompose
+fi
+
+if grep -q "^private_ip=" $envfiledockercompose; then
+    sed -i "/^private_ip=/c\private_ip=$hostip $modifiedonbycomment" $envfiledockercompose
+else
+    echo "private_ip=$hostip $modifiedonbycomment" >> $envfiledockercompose
+fi
+
+if grep -q "^private_ip_range=" $envfiledockercompose; then
+    sed -i "/^private_ip_range=/c\private_ip_range=$hostrange $modifiedonbycomment" $envfiledockercompose
+else
+    echo "private_ip_range=$hostrange $modifiedonbycomment" >> $envfiledockercompose
 fi
 
 echo "script done"

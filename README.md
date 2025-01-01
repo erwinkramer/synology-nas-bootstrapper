@@ -103,6 +103,7 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
 1. Provisions the following services, via https and public certificate:
 
     - <https://whoami.yourexternal.domain.wow>
+    - <https://x.yourexternal.domain.wow> - the [DSM portal](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm)
 
 ## Application configuration
 
