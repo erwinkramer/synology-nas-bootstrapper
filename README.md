@@ -135,6 +135,10 @@ Hardware encoding options:
 
 Default username: `admin`, password is printed in container log first time, change it after login.
 
+### Postgres
+
+Make sure to create an `init.sql` file containing `ALTER ROLE admin SUPERUSER;`, or similar, and place it into `${host_data_config_path}/postgres/scripts`, this folder is mounted in `/docker-entrypoint-initdb.d/` so postgres picks this up.
+
 ## License
 
 This work is licensed under a
