@@ -1,0 +1,52 @@
+services:
+  code-server-dotnet:
+    container_name: code-server-dotnet
+    image: ptr727/vscode-server-dotnetcore:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: private
+    environment:
+      - PUID=${uid}
+      - PGID=${gid}
+      - PASSWORD=${interface_pw}
+      - DEFAULT_WORKSPACE=/config/workspace
+    volumes:
+      - ${host_data_config_path}/codeserver:/config
+    labels:
+      caddy: ${private_protocol}code.${private_domain}
+      caddy.reverse_proxy: "{{upstreams 8443}}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: generic
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=${interface_pw}
+      - POSTGRES_DB=nasi
+      - PGPORT=6432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d nasi -U admin" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ${host_data_config_path}/postgres/data:/var/lib/postgresql/data
+      - ${host_data_config_path}/postgres/scripts:/docker-entrypoint-initdb.d/
+    labels:
+      caddy.layer4.0_:6432:
+      caddy.layer4.0_:6432.route: ""
+      caddy.layer4.0_:6432.route.0_proxy: "{{upstreams 6432}}"
+      # please see: https://github.com/mholt/caddy-l4/issues/281
+      #
+      #caddy.layer4.0_:6432:
+      #caddy.layer4.0_:6432.0_@a: "http remote_ip ${private_ip_range}"
+      #caddy.layer4.0_:6432.0_route: "@a"
+      #caddy.layer4.0_:6432.0_route.0_proxy: "{{ upstreams 6432 }}"
+      #caddy.layer4.0_:6432.1_route: ""
+      #caddy.layer4.0_:6432.1_route.0_echo: ""

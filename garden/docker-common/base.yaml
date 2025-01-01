@@ -1,0 +1,29 @@
+# reuse in extends: https://docs.docker.com/compose/how-tos/multiple-compose-files/extends/
+
+services:
+  generic:
+    restart: unless-stopped
+    hostname: ${nas_name}
+    networks:
+      - eden
+    environment:
+      - TZ=${timezone}
+
+  private:
+    restart: unless-stopped
+    hostname: ${nas_name}
+    networks:
+      - eden
+    environment:
+      - TZ=${timezone}
+    labels:
+      caddy.@denied.not_0: "remote_ip ${private_ip_range}"
+      caddy.abort: "@denied"
+
+  public:
+    restart: unless-stopped
+    hostname: ${nas_name}
+    networks:
+      - eden
+    environment:
+      - TZ=${timezone}

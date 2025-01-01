@@ -1,0 +1,61 @@
+networks:
+  eden:
+    driver: bridge
+    name: eden
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+services:
+  # for dozzle log errors in caddy, it's expected. See: https://github.com/amir20/dozzle/issues/2844
+  caddy:
+    container_name: caddy
+    build:
+      context: ../docker-file
+      dockerfile: caddy-docker-proxy.dockerfile
+    extends:
+      file: ../docker-common/base.yaml
+      service: generic
+    environment:
+      - CADDY_INGRESS_NETWORKS=eden
+    ports:
+      - 80:80
+      - 443:443
+      - 6432:6432 #postgres container
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${host_data_config_path}:/data
+
+  duckdns:
+    container_name: duckdns
+    image: linuxserver/duckdns:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: generic
+    environment:
+      - PUID=${uid}
+      - PGID=${gid}
+      - SUBDOMAINS=${public_ddns_subdomain}
+      - TOKEN=${public_ddns_token}
+      - UPDATE_IP=ipv4 #uses external Cloudflare whoami service to detect public IP addresses
+
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: private
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      caddy: ${private_protocol}dozzle.${private_domain}
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: generic
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
