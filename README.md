@@ -45,7 +45,6 @@ int[watchtower/duckdns]
 postgres
 ext[whoami]
 prv[whoami/dozzle/jellyfin/qbittorrent/code]
-
 end
 
 privateservices -- A record '*.yourinternal' to local NAS ip  --> 80 --> extendspe
@@ -54,7 +53,6 @@ privateservices -- A record '*.yourinternal' to local NAS ip  --> 80 --> extends
 externalservices -- CNAME record '*.yourexternal' to DDNS 'yourexternal.duckdns.org' --> 443 -- port forwarding to local NAS ip --> extendspub
 extendscr7 --> int
 extendscr4 --> postgres
-
 
 extendspub --> ext
 extendspe -- private_ip_range check -->prv
