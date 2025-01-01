@@ -18,7 +18,7 @@ code/whoami/qbittorrent/jellyfin/dozzle
 .yourinternal.domain.wow
 ]
 externalservices[https://
-whoami
+whoami/x
 .yourexternal.domain.wow
 ]
 end
