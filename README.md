@@ -76,7 +76,7 @@ Change the filename of [.env.example](.env.example) to `.env`.
 
 ### Tasks
 
-The [tasks folder](./garden/tasks/) provides boot scripts. Configure as specified in the comments of each file as a boot-up script. All scripts are idempotent and designed for repeated use without damaging an existing setup.
+The [tasks folder](./garden/tasks/) provides boot scripts. Configure as specified in the comments of each file. All scripts are idempotent and designed for repeated use without damaging an existing setup.
 
 1. [filesystem.sh](./garden/tasks/filesystem.sh) creates the filesystem structure (inspired by [DrFrankenstein](https://drfrankenstein.co.uk/step-2-setting-up-a-restricted-docker-user-and-obtaining-ids/)).
 
