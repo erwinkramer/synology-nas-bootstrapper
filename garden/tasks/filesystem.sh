@@ -87,34 +87,21 @@ hostrange=$(ip -o -f inet addr show eth0 | awk '{print $4}' | sed 's/\.[0-9]\+\/
 echo "setting .env file variables uid to '$userid', gid to '$groupid' and vgid to '$videodrivergroupid'..."
 
 touch $envfiledockercompose
-if grep -q "^uid=" $envfiledockercompose; then
-    sed -i "/^uid=/c\uid=$userid $modifiedonbycomment" $envfiledockercompose
-else
-    echo "uid=$userid $modifiedonbycomment" >> $envfiledockercompose
-fi
 
-if grep -q "^gid=" $envfiledockercompose; then
-    sed -i "/^gid=/c\gid=$groupid $modifiedonbycomment" $envfiledockercompose
-else
-    echo "gid=$groupid $modifiedonbycomment" >> $envfiledockercompose
-fi
+declare -A env_vars=(
+    ["uid"]=$userid
+    ["gid"]=$groupid
+    ["vgid"]=$videodrivergroupid
+    ["private_ip"]=$hostip
+    ["private_ip_range"]=$hostrange
+)
 
-if grep -q "^vgid=" $envfiledockercompose; then
-    sed -i "/^vgid=/c\vgid=$videodrivergroupid $modifiedonbycomment" $envfiledockercompose
-else
-    echo "vgid=$videodrivergroupid $modifiedonbycomment" >> $envfiledockercompose
-fi
-
-if grep -q "^private_ip=" $envfiledockercompose; then
-    sed -i "/^private_ip=/c\private_ip=$hostip $modifiedonbycomment" $envfiledockercompose
-else
-    echo "private_ip=$hostip $modifiedonbycomment" >> $envfiledockercompose
-fi
-
-if grep -q "^private_ip_range=" $envfiledockercompose; then
-    sed -i "/^private_ip_range=/c\private_ip_range=$hostrange $modifiedonbycomment" $envfiledockercompose
-else
-    echo "private_ip_range=$hostrange $modifiedonbycomment" >> $envfiledockercompose
-fi
+for var in "${!env_vars[@]}"; do
+    if grep -q "^$var=" $envfiledockercompose; then
+        sed -i "/^$var=/c\\$var=${env_vars[$var]} $modifiedonbycomment" $envfiledockercompose
+    else
+        echo "$var=${env_vars[$var]} $modifiedonbycomment" >> $envfiledockercompose
+    fi
+done
 
 echo "script done"
