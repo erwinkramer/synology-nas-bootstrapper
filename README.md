@@ -76,7 +76,7 @@ Change the filename of [.env.example](.env.example) to `.env`.
 
 The [tasks folder](./garden/tasks/) provides boot scripts. Configure as specified in the comments of each file. All scripts are idempotent and designed for repeated use without damaging an existing setup.
 
-1. [filesystem.sh](./garden/tasks/filesystem.sh) creates the filesystem structure (inspired by [DrFrankenstein](https://drfrankenstein.co.uk/step-2-setting-up-a-restricted-docker-user-and-obtaining-ids/)).
+1. [filesystem.sh](./garden/tasks/filesystem.sh) creates the filesystem structure, shares, docker user, docker group and permissions (inspired by [DrFrankenstein](https://drfrankenstein.co.uk/step-2-setting-up-a-restricted-docker-user-and-obtaining-ids/)), also modifies `.env` file variables.
 
 1. [routedocker.sh](./garden/tasks/routedocker.sh) fixes the iptables for docker (introduced by [Pedro Lamas](https://gist.github.com/pedrolamas)).
 
