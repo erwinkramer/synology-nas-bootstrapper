@@ -31,6 +31,7 @@ do
 		
 		iptables -t nat -A PREROUTING -p tcp --dport 80 -m addrtype --dst-type LOCAL -j DOCKER
 		iptables -t nat -A PREROUTING -p tcp --dport 443 -m addrtype --dst-type LOCAL -j DOCKER
+		iptables -t nat -A PREROUTING -p tcp --dport 6432 -m addrtype --dst-type LOCAL -j DOCKER
 
 		echo "Done!"
 		

@@ -22,6 +22,7 @@ services:
   postgres:
     container_name: postgres
     image: postgres:latest
+    user: ${uid}:${gid}
     extends:
       file: ../docker-common/base.yaml
       service: generic
@@ -40,13 +41,6 @@ services:
       - ${host_data_config_path}/postgres/scripts:/docker-entrypoint-initdb.d/
     labels:
       caddy.layer4.0_:6432:
-      caddy.layer4.0_:6432.route: ""
-      caddy.layer4.0_:6432.route.0_proxy: "{{upstreams 6432}}"
-      # please see: https://github.com/mholt/caddy-l4/issues/281
-      #
-      #caddy.layer4.0_:6432:
-      #caddy.layer4.0_:6432.0_@a: "http remote_ip ${private_ip_range}"
-      #caddy.layer4.0_:6432.0_route: "@a"
-      #caddy.layer4.0_:6432.0_route.0_proxy: "{{ upstreams 6432 }}"
-      #caddy.layer4.0_:6432.1_route: ""
-      #caddy.layer4.0_:6432.1_route.0_echo: ""
+      caddy.layer4.0_:6432.0_@a: "remote_ip ${private_ip_range}"
+      caddy.layer4.0_:6432.0_route: "@a"
+      caddy.layer4.0_:6432.0_route.0_proxy: "{{ upstreams 6432 }}"
