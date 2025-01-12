@@ -27,6 +27,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${host_data_config_path}:/data
     labels:
+      com.centurylinklabs.watchtower.enable: false
       caddy_0: ${public_protocol}x.${public_domain}
       caddy_0.reverse_proxy: "${private_ip}:5000" #built-in DSM portal outside of docker
 
