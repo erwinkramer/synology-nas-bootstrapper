@@ -9,6 +9,8 @@ Makes use of the Synology CLI [(pdf)](https://global.download.synology.com/downl
 
 ## Network Design
 
+Following is the partial network design. Refer to the code for full details.
+
 ```mermaid
 flowchart TD
 
@@ -135,6 +137,8 @@ Hardware encoding options:
 ### qBittorrent
 
 Default username: `admin`, password is printed in container log first time, change it after login.
+
+Change the listening port to `50777` for incoming connections.
 
 ### Postgres
 
