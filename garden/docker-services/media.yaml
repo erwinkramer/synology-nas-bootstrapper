@@ -43,7 +43,7 @@ services:
     labels:
       caddy_0: ${private_protocol}qbittorrent.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 32500}}"
-      caddy_1.layer4.:6881:
-      caddy_1.layer4.:6881.@a: "remote_ip 0.0.0.0/0"
-      caddy_1.layer4.:6881.route: "@a"
-      caddy_1.layer4.:6881.route.proxy: "{{ upstreams 6881 }}"
+      caddy_1.layer4.:50777:
+      caddy_1.layer4.:50777.@a: "remote_ip 0.0.0.0/0"
+      caddy_1.layer4.:50777.route: "@a"
+      caddy_1.layer4.:50777.route.proxy: "{{ upstreams 50777 }}"

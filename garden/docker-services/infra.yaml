@@ -22,7 +22,7 @@ services:
       - 80:80
       - 443:443
       - 6432:6432 #postgres container
-      - 6881:6881 #qbittorrent container
+      - 50777:50777 #qbittorrent container
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${host_data_config_path}:/data

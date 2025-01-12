@@ -12,7 +12,7 @@ bash /volume1/docker/projects/garden/tasks/routedocker.sh
 
 '
 
-ports=(80 443 6432 6881)
+ports=(80 443 6432 50777)
 currentAttempt=0
 totalAttempts=10
 delay=15
