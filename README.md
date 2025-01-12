@@ -94,6 +94,8 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
 
 1. Provisions `postgres` as a service via port 6432.
 
+1. Provisions `qBittorrent` as a service via port 50777.
+
 1. Provisions the following services, via http, blocking any traffic that doesn't originate `private_ip_range`:
 
     - <http://code.yourinternal.domain.wow>
