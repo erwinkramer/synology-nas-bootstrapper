@@ -22,12 +22,13 @@ services:
       - 80:80
       - 443:443
       - 6432:6432 #postgres container
+      - 6881:6881 #qbittorrent container
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${host_data_config_path}:/data
     labels:
-      caddy: ${public_protocol}x.${public_domain}
-      caddy.reverse_proxy: "${private_ip}:5000" #built-in DSM portal outside of docker
+      caddy_0: ${public_protocol}x.${public_domain}
+      caddy_0.reverse_proxy: "${private_ip}:5000" #built-in DSM portal outside of docker
 
   duckdns:
     container_name: duckdns
@@ -51,8 +52,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
-      caddy: ${private_protocol}dozzle.${private_domain}
-      caddy.reverse_proxy: "{{upstreams 8080}}"
+      caddy_0: ${private_protocol}dozzle.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 8080}}"
 
   watchtower:
     container_name: watchtower

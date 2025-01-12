@@ -17,8 +17,8 @@ services:
     environment:
       - TZ=${timezone}
     labels:
-      caddy.@denied.not_0: "remote_ip ${private_ip_range}"
-      caddy.abort: "@denied"
+      caddy_0.@denied.not_0: "remote_ip ${private_ip_range}"
+      caddy_0.abort: "@denied"
 
   public:
     restart: unless-stopped

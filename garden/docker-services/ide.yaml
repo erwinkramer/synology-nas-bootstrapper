@@ -13,8 +13,8 @@ services:
     volumes:
       - ${host_data_config_path}/codeserver:/config
     labels:
-      caddy: ${private_protocol}code.${private_domain}
-      caddy.reverse_proxy: "{{upstreams 8443}}"
+      caddy_0: ${private_protocol}code.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 8443}}"
     depends_on:
       postgres:
         condition: service_healthy
@@ -40,7 +40,7 @@ services:
       - ${host_data_config_path}/postgres/data:/var/lib/postgresql/data
       - ${host_data_config_path}/postgres/scripts:/docker-entrypoint-initdb.d/
     labels:
-      caddy.layer4.0_:6432:
-      caddy.layer4.0_:6432.0_@a: "remote_ip ${private_ip_range}"
-      caddy.layer4.0_:6432.0_route: "@a"
-      caddy.layer4.0_:6432.0_route.0_proxy: "{{ upstreams 6432 }}"
+      caddy_0.layer4.:6432:
+      caddy_0.layer4.:6432.@a: "remote_ip ${private_ip_range}"
+      caddy_0.layer4.:6432.route: "@a"
+      caddy_0.layer4.:6432.route.proxy: "{{ upstreams 6432 }}"
