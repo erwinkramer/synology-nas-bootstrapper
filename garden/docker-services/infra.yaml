@@ -63,3 +63,8 @@ services:
       service: generic
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+      - WATCHTOWER_SCHEDULE=0 30 * * * * # at 30 minutes past the hour, every hour
+      - WATCHTOWER_TIMEOUT=25 # seconds
