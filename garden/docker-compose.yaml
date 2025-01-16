@@ -2,6 +2,6 @@ name: garden
 
 include:
   - ./docker-services/infra.yaml
-  - ./docker-services/whoami.yaml
+  - ./docker-services/observability.yaml
   - ./docker-services/media.yaml
   - ./docker-services/ide.yaml
