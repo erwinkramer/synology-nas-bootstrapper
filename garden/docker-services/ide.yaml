@@ -44,3 +44,17 @@ services:
       caddy_0.layer4.:6432.@a: "remote_ip ${private_ip_range}"
       caddy_0.layer4.:6432.route: "@a"
       caddy_0.layer4.:6432.route.proxy: "{{ upstreams 6432 }}"
+
+  coredns:
+    container_name: coredns
+    image: coredns/coredns
+    user: ${uid}:${gid}
+    extends:
+      file: ../docker-common/base.yaml
+      service: generic
+    volumes:
+      - ${host_data_config_path}/coredns/:/coredns-config/
+    command: -conf coredns-config/Corefile
+    ports:
+      - 53:53/udp
+      - 5533:53/udp
