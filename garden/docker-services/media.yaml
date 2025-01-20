@@ -21,6 +21,22 @@ services:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
 
+  radarr:
+    container_name: radarr
+    image: hotio/radarr:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: private
+    environment:
+      - PUID=${uid}
+      - PGID=${gid}
+    volumes:
+      - ${host_data_config_path}/radarr:/config
+      - ${host_data_path}:/data
+    labels:
+      caddy_0: ${private_protocol}radarr.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 7878}}"
+
   qbittorrent:
     container_name: qbittorrent
     image: qbittorrentofficial/qbittorrent-nox:latest

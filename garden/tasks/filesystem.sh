@@ -32,6 +32,7 @@ datafolders=(
     "config/postgres/scripts"
     "config/caddy"
     "config/coredns"
+    "config/radarr"
 )
 
 groupname="dockergroup"
