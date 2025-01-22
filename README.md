@@ -146,11 +146,15 @@ Change the listening port to `50777` for incoming connections.
 
 ### Radarr
 
-Go to `Settings` - `Connections` and configure Jellyfin with `Host` to `jellyfin` and `Port` to `8096`.
+Go to `Settings` - `Connections` and configure `Jellyfin` with: 
+- `Host` - `jellyfin`
+- `Port` - `8096`
 
 ### Prowlarr
 
-Go to `Settings` - `Apps` and configure Radarr with `Prowlarr Server` to `http://prowlarr:9696` and  `Radarr Server` to `http://radarr:7878`.
+Go to `Settings` - `Apps` and configure `Radarr` with: 
+- `Prowlarr Server` -  `http://prowlarr:9696`
+- `Radarr Server` - `http://radarr:7878`
 
 ### Postgres
 
