@@ -103,6 +103,8 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
     - <http://qbittorrent.yourinternal.domain.wow>
     - <http://jellyfin.yourinternal.domain.wow>
     - <http://dozzle.yourinternal.domain.wow>
+    - <http://radarr.yourinternal.domain.wow>
+    - <http://prowlarr.yourinternal.domain.wow>
 
 1. Provisions the following services, via https and public certificate:
 
@@ -141,6 +143,16 @@ Hardware encoding options:
 Default username: `admin`, password is printed in container log first time, change it after login.
 
 Change the listening port to `50777` for incoming connections.
+
+### Radarr
+
+Go to `Settings` - `Connections` and configure Jellyfin with Host `jellyfin` and Port `8096`.
+
+### Prowlarr
+
+Set `Prowlarr Server` to `http://prowlarr:9696`.
+
+Set `Radarr Server` to `http://radarr:7878`.
 
 ### Postgres
 
