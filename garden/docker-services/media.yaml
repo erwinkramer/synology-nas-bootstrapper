@@ -21,6 +21,21 @@ services:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
 
+  prowlarr:
+    container_name: prowlarr
+    image: hotio/prowlarr:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: private
+    environment:
+      - PUID=${uid}
+      - PGID=${gid}
+    volumes:
+      - ${host_data_config_path}/prowlarr:/config
+    labels:
+      caddy_0: ${private_protocol}prowlarr.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 9696}}"
+
   radarr:
     container_name: radarr
     image: hotio/radarr:latest
@@ -49,13 +64,12 @@ services:
       - QBT_WEBUI_PORT=32500
       - QBT_LEGAL_NOTICE=confirm
       - QBT_VERSION=latest
-      - QBT_DOWNLOADS_PATH=/media
+      - QBT_DOWNLOADS_PATH=/data/downloads
     tmpfs:
       - /tmp
     volumes:
       - ${host_data_config_path}:/config
-      - ${host_data_media_path}:/media
-      - ${host_data_downloads_path}:/downloads
+      - ${host_data_path}:/data
     labels:
       caddy_0: ${private_protocol}qbittorrent.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 32500}}"

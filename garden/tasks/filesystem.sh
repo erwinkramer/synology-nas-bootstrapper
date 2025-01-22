@@ -33,6 +33,7 @@ datafolders=(
     "config/caddy"
     "config/coredns"
     "config/radarr"
+    "config/prowlarr"
 )
 
 groupname="dockergroup"
