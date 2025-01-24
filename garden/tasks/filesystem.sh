@@ -1,3 +1,5 @@
+#!/bin/bash
+
 : '
 
 Create the user, group and shared folder structure with permissions for Docker. 

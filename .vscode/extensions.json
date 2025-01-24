@@ -2,6 +2,7 @@
     "recommendations": [
         "streetsidesoftware.code-spell-checker",
         "ms-azuretools.vscode-docker",
-        "ckolkman.vscode-postgres"
+        "ckolkman.vscode-postgres",
+        "timonwong.shellcheck"
     ]
 }

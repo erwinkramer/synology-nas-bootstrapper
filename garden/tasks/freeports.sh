@@ -1,3 +1,5 @@
+#!/bin/bash
+
 : '
 
 By default, ports 80 and 443 are used by Nginx but we want to use it for caddy.

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 : '
 
 This script is used to directly route traffic from the Synology NAS to the Docker containers so it preserves the sources IPs.
@@ -12,8 +14,11 @@ bash /volume1/docker/projects/garden/tasks/routedocker.sh
 
 '
 
-ports_tcp=(80 443 6432 50777 53)
-ports_udp=(53)
+declare -A ports=(
+	[tcp]="80 443 6432 50777 53"
+	[udp]="53"
+)
+
 currentAttempt=0
 totalAttempts=10
 delay=15
@@ -30,15 +35,12 @@ do
 
 	if [[ $result =~ "-A DOCKER -i docker0 -j RETURN" ]]; then
 		echo "Docker rules found! Modifying..."
-		
-		for port in "${ports_tcp[@]}"; do
-			echo "setting tcp port '$port' for docker"
-			iptables -t nat -A PREROUTING -p tcp --dport $port -m addrtype --dst-type LOCAL -j DOCKER
-		done
 
-		for port in "${ports_udp[@]}"; do
-			echo "setting udp port '$port' for docker"
-			iptables -t nat -A PREROUTING -p udp --dport $port -m addrtype --dst-type LOCAL -j DOCKER
+		for protocol in "${!ports[@]}"; do
+			for port in ${ports[$protocol]}; do
+				echo "setting $protocol port '$port' for docker"
+				iptables -t nat -A PREROUTING -p $protocol --dport $port -m addrtype --dst-type LOCAL -j DOCKER
+			done
 		done
 
 		echo "Done!"
