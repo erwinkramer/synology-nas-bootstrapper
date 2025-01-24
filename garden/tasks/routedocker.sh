@@ -12,7 +12,8 @@ bash /volume1/docker/projects/garden/tasks/routedocker.sh
 
 '
 
-ports=(80 443 6432 50777 53)
+ports_tcp=(80 443 6432 50777 53)
+ports_udp=(53)
 currentAttempt=0
 totalAttempts=10
 delay=15
@@ -30,9 +31,14 @@ do
 	if [[ $result =~ "-A DOCKER -i docker0 -j RETURN" ]]; then
 		echo "Docker rules found! Modifying..."
 		
-		for port in "${ports[@]}"; do
-			echo "setting port '$port' for docker"
+		for port in "${ports_tcp[@]}"; do
+			echo "setting tcp port '$port' for docker"
 			iptables -t nat -A PREROUTING -p tcp --dport $port -m addrtype --dst-type LOCAL -j DOCKER
+		done
+
+		for port in "${ports_udp[@]}"; do
+			echo "setting udp port '$port' for docker"
+			iptables -t nat -A PREROUTING -p udp --dport $port -m addrtype --dst-type LOCAL -j DOCKER
 		done
 
 		echo "Done!"
