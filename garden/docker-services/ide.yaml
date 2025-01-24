@@ -56,5 +56,6 @@ services:
       - ${host_data_config_path}/coredns/:/coredns-config/
     command: -conf coredns-config/Corefile
     ports:
+      - 53:53/tcp
       - 53:53/udp
       - 5533:53/udp
