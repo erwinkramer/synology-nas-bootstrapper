@@ -4,6 +4,7 @@
         "ms-azuretools.vscode-docker",
         "ckolkman.vscode-postgres",
         "timonwong.shellcheck",
-        "bierner.markdown-mermaid"
+        "bierner.markdown-mermaid",
+        "redhat.vscode-yaml"
     ]
 }

@@ -7,7 +7,7 @@ services:
     networks:
       - eden
     environment:
-      - TZ=${timezone}
+      TZ: ${timezone}
 
   private:
     restart: unless-stopped
@@ -15,7 +15,7 @@ services:
     networks:
       - eden
     environment:
-      - TZ=${timezone}
+      TZ: ${timezone}
     labels:
       caddy_0.@denied.not_0: "remote_ip ${private_ip_range}"
       caddy_0.abort: "@denied"
@@ -26,4 +26,4 @@ services:
     networks:
       - eden
     environment:
-      - TZ=${timezone}
+      TZ: ${timezone}

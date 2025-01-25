@@ -13,7 +13,7 @@ services:
     volumes:
       - ${host_data_config_path}/codeserver:/config
     secrets:
-       - interface_pw
+      - interface_pw
     labels:
       caddy_0: ${private_protocol}code.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 8443}}"
@@ -34,7 +34,7 @@ services:
       POSTGRES_DB: nasi
       PGPORT: 6432
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d nasi -U admin" ]
+      test: ["CMD-SHELL", "pg_isready -d nasi -U admin"]
       interval: 5s
       timeout: 5s
       retries: 5

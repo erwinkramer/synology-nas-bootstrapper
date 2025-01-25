@@ -7,7 +7,7 @@ services:
       file: ../docker-common/base.yaml
       service: private
     environment:
-      - JELLYFIN_PublishedServerUrl=${private_protocol}jellyfin.${private_domain}:80
+      JELLYFIN_PublishedServerUrl: ${private_protocol}jellyfin.${private_domain}:80
     volumes:
       - ${host_data_config_path}/jellyfin/cache:/cache
       - ${host_data_config_path}/jellyfin/config:/config
@@ -28,8 +28,8 @@ services:
       file: ../docker-common/base.yaml
       service: private
     environment:
-      - PUID=${uid}
-      - PGID=${gid}
+      PUID: ${uid}
+      PGID: ${gid}
     volumes:
       - ${host_data_config_path}/prowlarr:/config
     labels:
@@ -43,8 +43,8 @@ services:
       file: ../docker-common/base.yaml
       service: private
     environment:
-      - PUID=${uid}
-      - PGID=${gid}
+      PUID: ${uid}
+      PGID: ${gid}
     volumes:
       - ${host_data_config_path}/radarr:/config
       - ${host_data_path}:/data
@@ -59,12 +59,12 @@ services:
       file: ../docker-common/base.yaml
       service: private
     environment:
-      - PUID=${uid}
-      - PGID=${gid}
-      - QBT_WEBUI_PORT=32500
-      - QBT_LEGAL_NOTICE=confirm
-      - QBT_VERSION=latest
-      - QBT_DOWNLOADS_PATH=/data/downloads
+      PUID: ${uid}
+      PGID: ${gid}
+      QBT_WEBUI_PORT: 32500
+      QBT_LEGAL_NOTICE: confirm
+      QBT_VERSION: latest
+      QBT_DOWNLOADS_PATH: /data/downloads
     tmpfs:
       - /tmp
     volumes:

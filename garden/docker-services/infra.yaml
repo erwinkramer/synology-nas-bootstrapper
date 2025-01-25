@@ -17,7 +17,7 @@ services:
       file: ../docker-common/base.yaml
       service: generic
     environment:
-      - CADDY_INGRESS_NETWORKS=eden
+      CADDY_INGRESS_NETWORKS: eden
     ports:
       - 80:80
       - 443:443
@@ -38,11 +38,11 @@ services:
       file: ../docker-common/base.yaml
       service: generic
     environment:
-      - PUID=${uid}
-      - PGID=${gid}
-      - SUBDOMAINS=${public_ddns_subdomain}
-      - TOKEN=${public_ddns_token}
-      - UPDATE_IP=ipv4 #uses external Cloudflare whoami service to detect public IP addresses
+      PUID: ${uid}
+      PGID: ${gid}
+      SUBDOMAINS: ${public_ddns_subdomain}
+      TOKEN: ${public_ddns_token}
+      UPDATE_IP: ipv4 #uses external Cloudflare whoami service to detect public IP addresses
 
   dozzle:
     container_name: dozzle
@@ -65,7 +65,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_INCLUDE_RESTARTING=true
-      - WATCHTOWER_SCHEDULE=0 30 * * * * # at 30 minutes past the hour, every hour
-      - WATCHTOWER_TIMEOUT=25 # seconds
+      WATCHTOWER_CLEANUP: true
+      WATCHTOWER_INCLUDE_RESTARTING: true
+      WATCHTOWER_SCHEDULE: 0 30 * * * * # at 30 minutes past the hour, every hour
+      WATCHTOWER_TIMEOUT: 25 # seconds

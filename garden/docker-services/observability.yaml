@@ -6,7 +6,7 @@ services:
       file: ../docker-common/base.yaml
       service: private
     environment:
-      - WHOAMI_PORT_NUMBER=708
+      WHOAMI_PORT_NUMBER: 708
     labels:
       caddy_0: ${private_protocol}whoami.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 708}}"
