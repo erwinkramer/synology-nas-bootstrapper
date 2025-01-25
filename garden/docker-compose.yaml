@@ -1,5 +1,9 @@
 name: garden
 
+secrets:
+  interface_pw:
+    file: ./secrets/interface_pw.txt
+
 include:
   - ./docker-services/infra.yaml
   - ./docker-services/observability.yaml

@@ -1,1 +1,5 @@
 .env
+
+# ignore all secrets unless it's an example
+*/secrets/*
+!*/secrets/*.example

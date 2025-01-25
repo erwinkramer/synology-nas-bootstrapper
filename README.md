@@ -74,6 +74,8 @@ Place the entire project (repo) structure inside of your NAS with path `/volume1
 
 Change the filename of [.env.example](garden/.env.example) to `.env`.
 
+Change the filename of [interface_pw.txt.example](garden/secrets/interface_pw.txt.example) to `interface_pw.txt`.
+
 ### Tasks
 
 The [tasks folder](./garden/tasks/) provides boot scripts. Configure as specified in the comments of each file. All scripts are idempotent and designed for repeated use without damaging an existing setup.

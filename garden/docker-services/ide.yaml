@@ -6,12 +6,14 @@ services:
       file: ../docker-common/base.yaml
       service: private
     environment:
-      - PUID=${uid}
-      - PGID=${gid}
-      - PASSWORD=${interface_pw}
-      - DEFAULT_WORKSPACE=/config/workspace
+      PUID: ${uid}
+      PGID: ${gid}
+      FILE__PASSWORD: /run/secrets/interface_pw
+      DEFAULT_WORKSPACE: /config/workspace
     volumes:
       - ${host_data_config_path}/codeserver:/config
+    secrets:
+       - interface_pw
     labels:
       caddy_0: ${private_protocol}code.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 8443}}"
@@ -27,10 +29,10 @@ services:
       file: ../docker-common/base.yaml
       service: generic
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=${interface_pw}
-      - POSTGRES_DB=nasi
-      - PGPORT=6432
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD_FILE: /run/secrets/interface_pw
+      POSTGRES_DB: nasi
+      PGPORT: 6432
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -d nasi -U admin" ]
       interval: 5s
@@ -39,6 +41,8 @@ services:
     volumes:
       - ${host_data_config_path}/postgres/data:/var/lib/postgresql/data
       - ${host_data_config_path}/postgres/scripts:/docker-entrypoint-initdb.d/
+    secrets:
+      - interface_pw
     labels:
       caddy_0.layer4.:6432:
       caddy_0.layer4.:6432.@a: "remote_ip ${private_ip_range}"
