@@ -8,16 +8,13 @@ services:
     environment:
       PUID: ${uid}
       PGID: ${gid}
-      FILE__PASSWORD: /run/secrets/interface_pw
       DEFAULT_WORKSPACE: /config/workspace
     volumes:
       - ${host_data_config_path}/codeserver:/config
-    secrets:
-      - interface_pw
     labels:
       caddy_0: ${private_protocol}code.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 8443}}"
-      #caddy_0.import: tinyauth_forwarder *
+      caddy_0.import: tinyauth_forwarder *
     depends_on:
       postgres:
         condition: service_healthy
