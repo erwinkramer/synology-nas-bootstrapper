@@ -73,6 +73,7 @@ services:
     labels:
       caddy_0: ${private_protocol}qbittorrent.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 32500}}"
+      caddy_0.import: tinyauth_forwarder *
       caddy_1.layer4.:50777:
       caddy_1.layer4.:50777.@a: "remote_ip 0.0.0.0/0"
       caddy_1.layer4.:50777.route: "@a"

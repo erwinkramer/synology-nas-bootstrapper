@@ -143,7 +143,7 @@ Hardware encoding options:
 
 ### qBittorrent
 
-Default username: `admin`, password is printed in container log first time, change it after login.
+Default username: `admin`, password is printed in container log first time. Go to `Options` - `WebUI` - `Authentication` - check `Bypass authentication for clients in the whitelisted IP subnets` and add `0.0.0.0/0` as value since we use tinyauth instead.
 
 Change the listening port to `50777` for incoming connections.
 
