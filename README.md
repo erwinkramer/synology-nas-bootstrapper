@@ -107,6 +107,7 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
     - <http://dozzle.yourinternal.domain.wow>
     - <http://radarr.yourinternal.domain.wow>
     - <http://prowlarr.yourinternal.domain.wow>
+    - <http://auth.yourinternal.domain.wow>
 
 1. Provisions the following services, via https and public certificate:
 
