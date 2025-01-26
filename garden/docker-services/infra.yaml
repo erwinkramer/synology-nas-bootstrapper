@@ -30,6 +30,27 @@ services:
       com.centurylinklabs.watchtower.enable: false
       caddy_0: ${public_protocol}x.${public_domain}
       caddy_0.reverse_proxy: "${private_ip}:5000" #built-in DSM portal outside of docker
+      caddy_1: (tinyauth_forwarder)
+      caddy_1.forward_auth: 'tinyauth:3000'
+      caddy_1.forward_auth.uri: /api/auth
+
+  tinyauth:
+    container_name: tinyauth
+    image: ghcr.io/steveiliop56/tinyauth:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: private
+    environment:
+      DISABLE_CONTINUE: true
+      APP_URL: ${private_protocol}auth.${private_domain}
+      USERS: user@example.com:$$2a$$10$$UdLYoJ5lgPsC0RKqYH/jMua7zIn0g9kPqWmhYayJYLaZQ/FTmH2/u #should be omitted when using GitHub, https://github.com/steveiliop56/tinyauth/issues/9
+      SECRET: some-random-32-chars-stringasdhg
+      OAUTH_WHITELIST: r3verse2@gmail.com # not working yet, see https://github.com/steveiliop56/tinyauth/issues/12
+      GITHUB_CLIENT_ID: ${github_client_id}
+      GITHUB_CLIENT_SECRET: ${github_client_secret}
+    labels:
+      caddy_0: ${private_protocol}auth.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 3000}}"
 
   duckdns:
     container_name: duckdns
