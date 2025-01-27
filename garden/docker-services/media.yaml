@@ -35,6 +35,7 @@ services:
     labels:
       caddy_0: ${private_protocol}prowlarr.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 9696}}"
+      caddy_0.import: tinyauth_forwarder *
 
   radarr:
     container_name: radarr
@@ -51,6 +52,7 @@ services:
     labels:
       caddy_0: ${private_protocol}radarr.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 7878}}"
+      caddy_0.import: tinyauth_forwarder *
 
   qbittorrent:
     container_name: qbittorrent

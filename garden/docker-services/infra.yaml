@@ -50,6 +50,7 @@ services:
       OAUTH_WHITELIST: r3verse@gmail.com
       GITHUB_CLIENT_ID: ${github_client_id}
       GITHUB_CLIENT_SECRET_FILE: /run/secrets/github_client_secret
+      LOG_LEVEL: 0
     labels:
       caddy_0: ${private_protocol}auth.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 3000}}"
@@ -78,6 +79,7 @@ services:
     labels:
       caddy_0: ${private_protocol}dozzle.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 8080}}"
+      caddy_0.import: tinyauth_forwarder *
 
   watchtower:
     container_name: watchtower
