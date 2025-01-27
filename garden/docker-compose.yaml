@@ -3,7 +3,11 @@ name: garden
 secrets:
   interface_pw:
     file: ./secrets/interface_pw.txt
-
+  github_client_secret:
+    file: ./secrets/github_client_secret.txt
+  tinyauth_cookie_secret:
+    file: ./secrets/tinyauth_cookie_secret.txt
+    
 include:
   - ./docker-services/infra.yaml
   - ./docker-services/observability.yaml

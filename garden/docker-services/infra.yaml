@@ -40,14 +40,16 @@ services:
     extends:
       file: ../docker-common/base.yaml
       service: private
+    secrets:
+      - github_client_secret
+      - tinyauth_cookie_secret
     environment:
       DISABLE_CONTINUE: true
       APP_URL: ${private_protocol}auth.${private_domain}
-      USERS: user@example.com:$$2a$$10$$UdLYoJ5lgPsC0RKqYH/jMua7zIn0g9kPqWmhYayJYLaZQ/FTmH2/u #should be omitted when using GitHub, https://github.com/steveiliop56/tinyauth/issues/9
-      SECRET: ${tinyauth_cookie_secret} #used to encrypt the cookies
-      WHITELIST: r3verse@gmail.com
+      SECRET_FILE: /run/secrets/tinyauth_cookie_secret #used to encrypt the cookies, content has to be 32 characters
+      OAUTH_WHITELIST: r3verse@gmail.com
       GITHUB_CLIENT_ID: ${github_client_id}
-      GITHUB_CLIENT_SECRET: ${github_client_secret}
+      GITHUB_CLIENT_SECRET_FILE: /run/secrets/github_client_secret
     labels:
       caddy_0: ${private_protocol}auth.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 3000}}"

@@ -72,9 +72,9 @@ A Synology NAS, including:
 
 Place the entire project (repo) structure inside of your NAS with path `/volume1/docker/projects` (replace `volume1` with your own volume). You end up with `/volume1/docker/projects/garden`.
 
-Change the filename of [.env.example](garden/.env.example) to `.env`.
+Change the filename of [.env.example](garden/.env.example) to `.env` and use your own values.
 
-Change the filename of [interface_pw.txt.example](garden/secrets/interface_pw.txt.example) to `interface_pw.txt`.
+Remove the `.example` postfix of the files in the [secrets folder](garden/secrets) and use your own values.
 
 ### Tasks
 
