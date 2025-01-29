@@ -100,22 +100,25 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
 
 1. Provisions `coreDNS` as a service via port 53 (udp and tcp).
 
-1. Provisions the following services, via http, blocking any traffic that doesn't originate `private_ip_range`:
+1. Provisions the following http/https services:
 
-    - <http://jellyfin.yourinternal.domain.wow>
-    - <http://code.yourinternal.domain.wow> - behind tinyauth
-    - <http://whoami.yourinternal.domain.wow> - behind tinyauth
-    - <http://qbittorrent.yourinternal.domain.wow> - behind tinyauth
-    - <http://dozzle.yourinternal.domain.wow> - behind tinyauth
-    - <http://radarr.yourinternal.domain.wow> - behind tinyauth
-    - <http://prowlarr.yourinternal.domain.wow> - behind tinyauth
-    - <https://x.yourinternal.domain.wow> - the [DSM portal](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm)
+| public | Uri | Authentication |
+| --- | --- | -- |
+no | http://jellyfin.yourinternal.domain.wow | jellyfin |
+no | http://code.yourinternal.domain.wow | tinyauth |
+no | http://whoami.yourinternal.domain.wow | tinyauth |
+no | http://qbittorrent.yourinternal.domain.wow | tinyauth |
+no | http://dozzle.yourinternal.domain.wow | tinyauth |
+no | http://radarr.yourinternal.domain.wow | tinyauth |
+no | http://prowlarr.yourinternal.domain.wow | tinyauth |
+no | http://x.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
+yes | https://auth.yourexternal.domain.wow | tinyauth itself |
+yes | https://whoami.yourexternal.domain.wow | tinyauth |
+yes | https://x.yourexternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
 
-1. Provisions the following services, via https and public certificate:
-
-    - <http://auth.yourexternal.domain.wow> - tinyauth
-    - <https://whoami.yourexternal.domain.wow> - behind tinyauth
-    - <https://x.yourexternal.domain.wow> - the [DSM portal](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm)
+If not public, it's;
+ - blocking any traffic that doesn't originate `private_ip_range`;
+ - only resolvable locally.
 
 ## Application configuration
 
