@@ -149,25 +149,29 @@ Hardware encoding options:
 
 ### qBittorrent
 
-Default username: `admin`, password is printed in container log first time. Go to `Options` - `WebUI` - `Authentication` - check `Bypass authentication for clients in the whitelisted IP subnets` and add `0.0.0.0/0` as value since we use tinyauth instead.
+1. Default username: `admin`, password is printed in container log first time. Go to `Options` - `WebUI` - `Authentication` - check `Bypass authentication for clients in the whitelisted IP subnets` and add `0.0.0.0/0` as value since we use tinyauth instead.
 
-Change the listening port to `50777` for incoming connections.
+1. Change the listening port to `50777` for incoming connections.
 
 ### Radarr
 
-Go to `Settings` - `Connections` and configure `Jellyfin` with: 
-- `Host` - `jellyfin`
-- `Port` - `8096`
+1. Go to `Settings` - `Connections` and configure `Jellyfin` with: 
+   - `Host` - `jellyfin`
+   - `Port` - `8096`
+
+1. Go to `Settings` - `General` and set `Authentication Required` to `Disabled for Local Addresses` since we use tinyauth instead.
 
 ### Prowlarr
 
-Go to `Settings` - `Apps` and configure `Radarr` with: 
-- `Prowlarr Server` -  `http://prowlarr:9696`
-- `Radarr Server` - `http://radarr:7878`
+1. Go to `Settings` - `Apps` and configure `Radarr` with: 
+   - `Prowlarr Server` -  `http://prowlarr:9696`
+   - `Radarr Server` - `http://radarr:7878`
+
+1. Go to `Settings` - `General` and set `Authentication Required` to `Disabled for Local Addresses` since we use tinyauth instead.
 
 ### Postgres
 
-Make sure to create an `init.sql` file containing `ALTER ROLE admin SUPERUSER;`, or similar, and place it into `${host_data_config_path}/postgres/scripts`, this folder is mounted in `/docker-entrypoint-initdb.d/` so postgres picks this up.
+1. Make sure to create an `init.sql` file containing `ALTER ROLE admin SUPERUSER;`, or similar, and place it into `${host_data_config_path}/postgres/scripts`, this folder is mounted in `/docker-entrypoint-initdb.d/` so postgres picks this up.
 
 ## License
 
