@@ -108,6 +108,7 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
     - <http://radarr.yourinternal.domain.wow>
     - <http://prowlarr.yourinternal.domain.wow>
     - <http://auth.yourinternal.domain.wow>
+    - <https://x.yourinternal.domain.wow> - the [DSM portal](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm)
 
 1. Provisions the following services, via https and public certificate:
 
