@@ -10,5 +10,7 @@ services:
     labels:
       caddy_0: ${private_protocol}whoami.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 708}}"
+      caddy_0.import: tinyauth_forwarder *
       caddy_1: ${public_protocol}whoami.${public_domain}
       caddy_1.reverse_proxy: "{{upstreams 708}}"
+      caddy_1.import: tinyauth_forwarder *

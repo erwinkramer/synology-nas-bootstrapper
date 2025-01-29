@@ -98,21 +98,23 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
 
 1. Provisions `qBittorrent` as a service via port 50777.
 
+1. Provisions `coreDNS` as a service via port 53 (udp and tcp).
+
 1. Provisions the following services, via http, blocking any traffic that doesn't originate `private_ip_range`:
 
-    - <http://code.yourinternal.domain.wow>
-    - <http://whoami.yourinternal.domain.wow>
-    - <http://qbittorrent.yourinternal.domain.wow>
     - <http://jellyfin.yourinternal.domain.wow>
-    - <http://dozzle.yourinternal.domain.wow>
-    - <http://radarr.yourinternal.domain.wow>
-    - <http://prowlarr.yourinternal.domain.wow>
-    - <http://auth.yourinternal.domain.wow>
+    - <http://code.yourinternal.domain.wow> - behind tinyauth
+    - <http://whoami.yourinternal.domain.wow> - behind tinyauth
+    - <http://qbittorrent.yourinternal.domain.wow> - behind tinyauth
+    - <http://dozzle.yourinternal.domain.wow> - behind tinyauth
+    - <http://radarr.yourinternal.domain.wow> - behind tinyauth
+    - <http://prowlarr.yourinternal.domain.wow> - behind tinyauth
     - <https://x.yourinternal.domain.wow> - the [DSM portal](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm)
 
 1. Provisions the following services, via https and public certificate:
 
-    - <https://whoami.yourexternal.domain.wow>
+    - <http://auth.yourexternal.domain.wow> - tinyauth
+    - <https://whoami.yourexternal.domain.wow> - behind tinyauth
     - <https://x.yourexternal.domain.wow> - the [DSM portal](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm)
 
 ## Application configuration
