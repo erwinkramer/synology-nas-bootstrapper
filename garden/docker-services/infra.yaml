@@ -30,9 +30,11 @@ services:
       com.centurylinklabs.watchtower.enable: false
       caddy_0: ${public_protocol}x.${public_domain}
       caddy_0.reverse_proxy: ${private_ip}:5000 #built-in DSM portal outside of docker
-      caddy_1: (tinyauth_forwarder)
-      caddy_1.forward_auth: tinyauth:3000
-      caddy_1.forward_auth.uri: /api/auth
+      caddy_1: ${private_protocol}x.${private_domain}
+      caddy_1.reverse_proxy: ${private_ip}:5000 #built-in DSM portal outside of docker
+      caddy_2: (tinyauth_forwarder)
+      caddy_2.forward_auth: tinyauth:3000
+      caddy_2.forward_auth.uri: /api/auth
 
   tinyauth:
     container_name: tinyauth
