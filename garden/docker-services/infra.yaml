@@ -47,7 +47,7 @@ services:
       DISABLE_CONTINUE: true
       APP_URL: ${private_protocol}auth.${private_domain}
       SECRET_FILE: /run/secrets/tinyauth_cookie_secret #used to encrypt the cookies, content has to be 32 characters
-      OAUTH_WHITELIST: r3verse@gmail.com
+      OAUTH_WHITELIST: ${github_users_csv}
       GITHUB_CLIENT_ID: ${github_client_id}
       GITHUB_CLIENT_SECRET_FILE: /run/secrets/github_client_secret
       LOG_LEVEL: 0
