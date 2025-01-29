@@ -1,6 +1,6 @@
 services:
   code-server-dotnet:
-    container_name: code-server-dotnet
+    container_name: code
     image: ptr727/vscode-server-dotnetcore:latest
     extends:
       file: ../docker-common/base.yaml

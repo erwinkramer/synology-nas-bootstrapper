@@ -111,10 +111,10 @@ no | http://qbittorrent.yourinternal.domain.wow | tinyauth |
 no | http://dozzle.yourinternal.domain.wow | tinyauth |
 no | http://radarr.yourinternal.domain.wow | tinyauth |
 no | http://prowlarr.yourinternal.domain.wow | tinyauth |
-no | http://x.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
+no | http://based.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
 yes | https://auth.yourexternal.domain.wow | tinyauth itself |
 yes | https://whoami.yourexternal.domain.wow | tinyauth |
-yes | https://x.yourexternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
+yes | https://based.yourexternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
 
 If not public, it's;
  - blocking any traffic that doesn't originate `private_ip_range`;
