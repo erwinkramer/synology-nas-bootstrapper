@@ -16,11 +16,11 @@ flowchart TD
 
 subgraph access[DNS Access layer]
 privateservices[http://
-code/whoami/qbittorrent/jellyfin/dozzle
+code/whoami/qbittorrent/jellyfin/dozzle/based
 .yourinternal.domain.wow
 ]
 externalservices[https://
-whoami/x
+whoami/based
 .yourexternal.domain.wow
 ]
 end
