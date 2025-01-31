@@ -111,7 +111,7 @@ no  | http://qbittorrent.yourinternal.domain.wow | tinyauth |
 no  | http://dozzle.yourinternal.domain.wow | tinyauth |
 no  | http://radarr.yourinternal.domain.wow | tinyauth |
 no  | http://prowlarr.yourinternal.domain.wow | tinyauth |
-no  | http://auth.yourexternal.domain.wow | tinyauth itself |
+no  | http://auth.yourinternal.domain.wow | tinyauth itself |
 no  | http://based.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
 yes | https://based.yourexternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
 yes | https://whoami.yourexternal.domain.wow |  |
