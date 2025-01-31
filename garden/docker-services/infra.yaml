@@ -41,34 +41,38 @@ services:
     image: ghcr.io/steveiliop56/tinyauth:latest
     extends:
       file: ../docker-common/base.yaml
-      service: public
+      service: private
     secrets:
       - github_client_secret
       - tinyauth_cookie_secret
     environment:
       DISABLE_CONTINUE: true
-      APP_URL: ${public_protocol}auth.${public_domain}
+      APP_URL: ${private_protocol}auth.${private_domain}
       SECRET_FILE: /run/secrets/tinyauth_cookie_secret #used to encrypt the cookies, content has to be 32 characters
       OAUTH_WHITELIST: ${github_users_csv}
       GITHUB_CLIENT_ID: ${github_client_id}
       GITHUB_CLIENT_SECRET_FILE: /run/secrets/github_client_secret
       LOG_LEVEL: 1 #0 for debug, 1 for info
     labels:
-      caddy_0: ${public_protocol}auth.${public_domain}
+      caddy_0: ${private_protocol}auth.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 3000}}"
 
-  duckdns:
-    container_name: duckdns
-    image: linuxserver/duckdns:latest
+  cloudflare-ddns:
+    container_name: cloudflare-ddns
+    image: favonia/cloudflare-ddns:latest
     extends:
       file: ../docker-common/base.yaml
       service: generic
+    user: ${uid}:${gid}
+    read_only: true
+    cap_drop: [all]
+    security_opt: [no-new-privileges:true]
+    secrets:
+      - cloudflare_api_token
     environment:
-      PUID: ${uid}
-      PGID: ${gid}
-      SUBDOMAINS: ${public_ddns_subdomain}
-      TOKEN: ${public_ddns_token}
-      UPDATE_IP: ipv4 #uses external Cloudflare whoami service to detect public IP addresses
+      CLOUDFLARE_API_TOKEN_FILE: /run/secrets/cloudflare_api_token
+      DOMAINS: "*.${public_domain}"
+      IP6_PROVIDER: none
 
   dozzle:
     container_name: dozzle

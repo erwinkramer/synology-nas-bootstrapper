@@ -43,7 +43,7 @@ extendscr4[docker extends service/base]
 end
 
 subgraph cm[backend containers]
-int[watchtower/duckdns]
+int[watchtower/cloudflare-ddns]
 postgres
 ext[whoami]
 prv[whoami/dozzle/jellyfin/qbittorrent/code]
@@ -52,7 +52,7 @@ end
 privateservices -- A record '*.yourinternal' to local NAS ip  --> 80 --> extendspe
 
 6432 --> extendscr4
-externalservices -- CNAME record '*.yourexternal' to DDNS 'yourexternal.duckdns.org' --> 443 -- port forwarding to local NAS ip --> extendspub
+externalservices -- A record '*.yourexternal' to public ip (DDNS) --> 443 -- port forwarding to local NAS ip --> extendspub
 extendscr7 --> int
 extendscr4 --> postgres
 
@@ -90,7 +90,7 @@ The [tasks folder](./garden/tasks/) provides boot scripts. Configure as specifie
 
 The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all containers. Create a project called `garden` in Container Manager based on this file, and fill in the variables in the `.env` file. It does the following:
 
-1. Provisions `watchtower` and `duckdns` as internal services without inbound traffic.
+1. Provisions `watchtower` and `cloudflare-ddns` as internal services without inbound traffic.
 
 1. Configures `caddy` as reverse proxy for all inbound traffic.
 
@@ -104,17 +104,17 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
 
 | public | Uri | Authentication |
 | --- | --- | -- |
-no | http://jellyfin.yourinternal.domain.wow | jellyfin |
-no | http://code.yourinternal.domain.wow | tinyauth |
-no | http://whoami.yourinternal.domain.wow | tinyauth |
-no | http://qbittorrent.yourinternal.domain.wow | tinyauth |
-no | http://dozzle.yourinternal.domain.wow | tinyauth |
-no | http://radarr.yourinternal.domain.wow | tinyauth |
-no | http://prowlarr.yourinternal.domain.wow | tinyauth |
-no | http://based.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
-yes | https://auth.yourexternal.domain.wow | tinyauth itself |
-yes | https://whoami.yourexternal.domain.wow | tinyauth |
+no  | http://jellyfin.yourinternal.domain.wow | jellyfin |
+no  | http://code.yourinternal.domain.wow | tinyauth |
+no  | http://whoami.yourinternal.domain.wow | tinyauth |
+no  | http://qbittorrent.yourinternal.domain.wow | tinyauth |
+no  | http://dozzle.yourinternal.domain.wow | tinyauth |
+no  | http://radarr.yourinternal.domain.wow | tinyauth |
+no  | http://prowlarr.yourinternal.domain.wow | tinyauth |
+no  | http://auth.yourexternal.domain.wow | tinyauth itself |
+no  | http://based.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
 yes | https://based.yourexternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
+yes | https://whoami.yourexternal.domain.wow |  |
 
 If not public, it's;
  - blocking any traffic that doesn't originate `private_ip_range`;
