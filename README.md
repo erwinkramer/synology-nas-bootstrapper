@@ -177,7 +177,7 @@ Hardware encoding options:
    - Host Address - `radarr`
    - API Key - add from `Radarr` - `Settings` - `General` - `API Key`
 1. Go to `Settings` - `Languages` and configure via [bazarr languages guide](https://wiki.bazarr.media/Getting-Started/Setup-Guide/#languages).
-1. Go to `settings` - `Providers` and configure via [bazarr providers guide](https://wiki.bazarr.media/Getting-Started/Setup-Guide/#providers) for `opensubtitles.com` and `Gestdown (Addic7ed proxy)`.
+1. Go to `settings` - `Providers` and configure via [bazarr providers guide](https://wiki.bazarr.media/Getting-Started/Setup-Guide/#providers) for `OpenSubtitles.com`, `Supersubtitles` and `Gestdown (Addic7ed proxy)`.
 1. Set the language profile for existing media, via [bazarr - First Time Installation Configuration](https://wiki.bazarr.media/Getting-Started/First-time-installation-configuration/).
 
 ### Postgres
