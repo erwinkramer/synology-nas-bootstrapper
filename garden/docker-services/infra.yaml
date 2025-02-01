@@ -35,26 +35,28 @@ services:
       caddy_2: (tinyauth_forwarder)
       caddy_2.forward_auth: tinyauth:3000
       caddy_2.forward_auth.uri: /api/auth
+      caddy_3.auto_https: disable_redirects
+      #caddy_4.debug: '' #enable debugging
 
   tinyauth:
     container_name: auth
     image: ghcr.io/steveiliop56/tinyauth:latest
     extends:
       file: ../docker-common/base.yaml
-      service: private
+      service: public
     secrets:
       - github_client_secret
       - tinyauth_cookie_secret
     environment:
       DISABLE_CONTINUE: true
-      APP_URL: ${private_protocol}auth.${private_domain}
+      APP_URL: ${public_protocol}${public_auth_domain}
       SECRET_FILE: /run/secrets/tinyauth_cookie_secret #used to encrypt the cookies, content has to be 32 characters
       OAUTH_WHITELIST: ${github_users_csv}
       GITHUB_CLIENT_ID: ${github_client_id}
       GITHUB_CLIENT_SECRET_FILE: /run/secrets/github_client_secret
       LOG_LEVEL: 1 #0 for debug, 1 for info
     labels:
-      caddy_0: ${private_protocol}auth.${private_domain}
+      caddy_0: ${public_protocol}${public_auth_domain}
       caddy_0.reverse_proxy: "{{upstreams 3000}}"
 
   cloudflare-ddns:
@@ -71,7 +73,7 @@ services:
       - cloudflare_api_token
     environment:
       CLOUDFLARE_API_TOKEN_FILE: /run/secrets/cloudflare_api_token
-      DOMAINS: "*.${public_domain}"
+      DOMAINS: "*.${public_domain},${public_auth_domain}"
       IP6_PROVIDER: none
 
   dozzle:

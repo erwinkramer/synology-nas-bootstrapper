@@ -104,6 +104,10 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
 
 | public | Uri | Authentication |
 | --- | --- | -- |
+yes | https://auth.domain.wow | tinyauth itself |
+yes | https://whoami.yourexternal.domain.wow | tinyauth |
+yes | https://based.yourexternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
+no  | http://based.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
 no  | http://jellyfin.yourinternal.domain.wow | jellyfin |
 no  | http://code.yourinternal.domain.wow | tinyauth |
 no  | http://whoami.yourinternal.domain.wow | tinyauth |
@@ -112,10 +116,6 @@ no  | http://dozzle.yourinternal.domain.wow | tinyauth |
 no  | http://radarr.yourinternal.domain.wow | tinyauth |
 no  | http://bazarr.yourinternal.domain.wow | tinyauth |
 no  | http://prowlarr.yourinternal.domain.wow | tinyauth |
-no  | http://auth.yourinternal.domain.wow | tinyauth itself |
-no  | http://based.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
-yes | https://based.yourexternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
-yes | https://whoami.yourexternal.domain.wow |  |
 
 If not public, it's;
  - blocking any traffic that doesn't originate `private_ip_range`;
