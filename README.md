@@ -110,6 +110,7 @@ no  | http://whoami.yourinternal.domain.wow | tinyauth |
 no  | http://qbittorrent.yourinternal.domain.wow | tinyauth |
 no  | http://dozzle.yourinternal.domain.wow | tinyauth |
 no  | http://radarr.yourinternal.domain.wow | tinyauth |
+no  | http://bazarr.yourinternal.domain.wow | tinyauth |
 no  | http://prowlarr.yourinternal.domain.wow | tinyauth |
 no  | http://auth.yourinternal.domain.wow | tinyauth itself |
 no  | http://based.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
@@ -168,6 +169,16 @@ Hardware encoding options:
    - `Radarr Server` - `http://radarr:7878`
 
 1. Go to `Settings` - `General` and set `Authentication Required` to `Disabled for Local Addresses` since we use tinyauth instead.
+
+### Bazarr
+
+1. Go to `Settings` - `Radarr` and configure `Radarr` with:
+   - Enabled - `true`
+   - Host Address - `radarr`
+   - API Key - add from `Radarr` - `Settings` - `General` - `API Key`
+1. Go to `Settings` - `Languages` and configure via [bazarr languages guide](https://wiki.bazarr.media/Getting-Started/Setup-Guide/#languages).
+1. Go to `settings` - `Providers` and configure via [bazarr providers guide](https://wiki.bazarr.media/Getting-Started/Setup-Guide/#providers) for `opensubtitles.com`.
+1. Set the language profile for existing media, via [bazarr - First Time Installation Configuration](https://wiki.bazarr.media/Getting-Started/First-time-installation-configuration/).
 
 ### Postgres
 

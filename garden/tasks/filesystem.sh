@@ -36,6 +36,7 @@ datafolders=(
     "config/coredns"
     "config/radarr"
     "config/prowlarr"
+    "config/bazarr"
 )
 
 groupname="dockergroup"

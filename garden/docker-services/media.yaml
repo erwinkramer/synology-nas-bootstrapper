@@ -54,6 +54,25 @@ services:
       caddy_0.reverse_proxy: "{{upstreams 7878}}"
       caddy_0.import: tinyauth_forwarder *
 
+  bazarr:
+    container_name: bazarr
+    image: hotio/bazarr:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: private
+    environment:
+      PUID: ${uid}
+      PGID: ${gid}
+      UMASK: 002
+      WEBUI_PORTS: 6767/tcp,6767/udp
+    volumes:
+      - ${host_data_config_path}/bazarr:/config
+      - ${host_data_path}:/data
+    labels:
+      caddy_0: ${private_protocol}bazarr.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 6767}}"
+      caddy_0.import: tinyauth_forwarder *
+
   qbittorrent:
     container_name: qbittorrent
     image: qbittorrentofficial/qbittorrent-nox:latest
