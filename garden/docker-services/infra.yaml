@@ -40,10 +40,12 @@ services:
 
   tinyauth:
     container_name: auth
-    image: ghcr.io/steveiliop56/tinyauth:latest
+    image: ghcr.io/steveiliop56/tinyauth:v2.0.2
     extends:
       file: ../docker-common/base.yaml
       service: public
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     secrets:
       - github_client_secret
       - tinyauth_cookie_secret
