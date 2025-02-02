@@ -7,6 +7,7 @@ services:
     networks:
       - eden
     environment:
+      DOCKER_API_VERSION: ${docker_api_version} # https://github.com/docker/cli/issues/2533
       TZ: ${timezone}
 
   private:
@@ -15,6 +16,7 @@ services:
     networks:
       - eden
     environment:
+      DOCKER_API_VERSION: ${docker_api_version} # https://github.com/docker/cli/issues/2533
       TZ: ${timezone}
     labels:
       caddy_0.@denied.not_0: "remote_ip ${private_ip_range}"
@@ -26,4 +28,5 @@ services:
     networks:
       - eden
     environment:
+      DOCKER_API_VERSION: ${docker_api_version} # https://github.com/docker/cli/issues/2533
       TZ: ${timezone}

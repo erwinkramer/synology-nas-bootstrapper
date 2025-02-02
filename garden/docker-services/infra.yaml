@@ -40,7 +40,7 @@ services:
 
   tinyauth:
     container_name: auth
-    image: ghcr.io/steveiliop56/tinyauth:v2.0.2
+    image: ghcr.io/steveiliop56/tinyauth:latest
     extends:
       file: ../docker-common/base.yaml
       service: public

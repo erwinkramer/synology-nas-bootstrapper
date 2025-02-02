@@ -91,6 +91,7 @@ hostip=$(ip route get 1 | awk '{print $NF;exit}')
 hostrange=$(ip -o -f inet addr show eth0 | awk '{print $4}' | sed 's/\.[0-9]\+\//.0\//')
 
 timezone=$(readlink /etc/localtime | sed 's|.*/zoneinfo/||')
+dockerversion=$(docker version --format '{{.Client.APIVersion}}')
 
 echo "setting .env file variables..."
 touch $envfiledockercompose
@@ -102,6 +103,8 @@ declare -A env_vars=(
     ["private_ip"]=$hostip
     ["private_ip_range"]=$hostrange
     ["timezone"]=$timezone
+    ["docker_api_version"]=$dockerversion
+    ["nas_name"]=$(hostname)
 )
 
 for var in "${!env_vars[@]}"; do
