@@ -4,11 +4,17 @@ services:
   generic:
     restart: unless-stopped
     hostname: ${nas_name}
+    security_opt: [no-new-privileges:true]
     networks:
       - eden
     environment:
       DOCKER_API_VERSION: ${docker_api_version} # https://github.com/docker/cli/issues/2533
       TZ: ${timezone}
+
+  genericWithContainerUser:
+    extends:
+      service: generic
+    user: ${uid}:${gid}
 
   private:
     extends:
@@ -17,6 +23,14 @@ services:
       caddy_0.@denied.not_0: "remote_ip ${private_ip_range}"
       caddy_0.abort: "@denied"
 
-  public:
+  privateWithContainerUser:
     extends:
-      service: generic
+      service: private
+    user: ${uid}:${gid}
+
+  privateWithEnvironmentUser:
+    extends:
+      service: private
+    environment:
+      PUID: ${uid}
+      PGID: ${gid}

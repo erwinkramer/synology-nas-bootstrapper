@@ -42,10 +42,9 @@ services:
   tinyauth:
     container_name: auth
     image: ghcr.io/steveiliop56/tinyauth:latest
-    user: ${uid}:${gid}
     extends:
       file: ../docker-common/base.yaml
-      service: public
+      service: genericWithContainerUser
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     secrets:
@@ -66,13 +65,11 @@ services:
   cloudflare-ddns:
     container_name: cloudflare-ddns
     image: favonia/cloudflare-ddns:latest
-    user: ${uid}:${gid}
     extends:
       file: ../docker-common/base.yaml
-      service: generic
+      service: genericWithContainerUser
     read_only: true
-    cap_drop: [all]
-    security_opt: [no-new-privileges:true]
+    cap_drop: [all] #Drop all Linux capabilities
     secrets:
       - cloudflare_api_token
     environment:
@@ -83,10 +80,9 @@ services:
   dozzle:
     container_name: dozzle
     image: amir20/dozzle:latest
-    user: ${uid}:${gid}
     extends:
       file: ../docker-common/base.yaml
-      service: private
+      service: privateWithContainerUser
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
@@ -97,10 +93,9 @@ services:
   watchtower:
     container_name: watchtower
     image: containrrr/watchtower:latest
-    user: ${uid}:${gid}
     extends:
       file: ../docker-common/base.yaml
-      service: generic
+      service: genericWithContainerUser
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:

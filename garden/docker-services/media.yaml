@@ -2,10 +2,9 @@ services:
   jellyfin:
     container_name: jellyfin
     image: jellyfin/jellyfin:latest
-    user: ${uid}:${gid}
     extends:
       file: ../docker-common/base.yaml
-      service: private
+      service: privateWithContainerUser
     environment:
       JELLYFIN_PublishedServerUrl: ${private_protocol}jellyfin.${private_domain}:80
     volumes:
@@ -26,10 +25,7 @@ services:
     image: hotio/prowlarr:latest
     extends:
       file: ../docker-common/base.yaml
-      service: private
-    environment:
-      PUID: ${uid}
-      PGID: ${gid}
+      service: privateWithEnvironmentUser
     volumes:
       - ${host_data_config_path}/prowlarr:/config
     labels:
@@ -42,10 +38,7 @@ services:
     image: hotio/radarr:latest
     extends:
       file: ../docker-common/base.yaml
-      service: private
-    environment:
-      PUID: ${uid}
-      PGID: ${gid}
+      service: privateWithEnvironmentUser
     volumes:
       - ${host_data_config_path}/radarr:/config
       - ${host_data_path}:/data
@@ -59,10 +52,8 @@ services:
     image: hotio/bazarr:latest
     extends:
       file: ../docker-common/base.yaml
-      service: private
+      service: privateWithEnvironmentUser
     environment:
-      PUID: ${uid}
-      PGID: ${gid}
       UMASK: 002
       WEBUI_PORTS: 6767/tcp,6767/udp
     volumes:
@@ -76,10 +67,9 @@ services:
   qbittorrent:
     container_name: qbittorrent
     image: qbittorrentofficial/qbittorrent-nox:latest
-    user: ${uid}:${gid}
     extends:
       file: ../docker-common/base.yaml
-      service: private
+      service: privateWithContainerUser
     environment:
       QBT_WEBUI_PORT: 32500
       QBT_LEGAL_NOTICE: confirm
