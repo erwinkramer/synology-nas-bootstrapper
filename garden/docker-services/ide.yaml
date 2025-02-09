@@ -46,7 +46,7 @@ services:
 
   coredns:
     container_name: coredns
-    image: coredns/coredns
+    image: coredns/coredns:latest
     extends:
       file: ../docker-common/base.yaml
       service: genericAsContainerUser
