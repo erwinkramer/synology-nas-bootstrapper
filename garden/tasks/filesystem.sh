@@ -39,7 +39,7 @@ datafolders=(
     "config/bazarr"
 )
 
-groupname="dockergroup"
+groupname="docker"
 username="dockerlimited"
 email="info@guanchen.nl"
 password=$(openssl rand -base64 12)
@@ -77,11 +77,16 @@ for sharename in $shareddatafoldername $sharedockerfoldername; do
     if ! synoshare --get $sharename; then
         echo "setting share $sharename..."
         synoshare --add "$sharename" "${sharename^} folder" "$volume/$sharename" "" "" "" 1 0
-        synoshare --setuser "$sharename" RW + "@$groupname"
     else
         echo "share '$sharename' already exists"
     fi
+
+    echo "setting share permission on $sharename..."
+    synoshare --setuser "$sharename" RW + "@$groupname"
 done
+
+echo "giving group ownership of 'docker.sock' to $groupname..."
+chown root:$groupname /var/run/docker.sock
 
 userid=$(synouser --get $username | awk -F "[][{}]" '/User uid/ { print $2 }')
 groupid=$(synogroup --get $groupname | awk -F "[][{}]" '/Group ID/ { print $2 }')

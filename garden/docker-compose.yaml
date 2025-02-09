@@ -10,6 +10,7 @@ secrets:
   cloudflare_api_token:
     file: ./secrets/cloudflare_api_token.txt
 
+# Includes aren't fully supported in Synology yet, the first time your import this compose file, comment the 'includes' and save it, then uncomment it.
 include:
   - ./docker-services/infra.yaml
   - ./docker-services/observability.yaml

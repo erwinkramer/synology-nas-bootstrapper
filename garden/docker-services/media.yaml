@@ -76,12 +76,11 @@ services:
   qbittorrent:
     container_name: qbittorrent
     image: qbittorrentofficial/qbittorrent-nox:latest
+    user: ${uid}:${gid}
     extends:
       file: ../docker-common/base.yaml
       service: private
     environment:
-      PUID: ${uid}
-      PGID: ${gid}
       QBT_WEBUI_PORT: 32500
       QBT_LEGAL_NOTICE: confirm
       QBT_VERSION: latest
