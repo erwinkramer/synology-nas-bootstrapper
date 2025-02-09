@@ -11,7 +11,18 @@ services:
       DOCKER_API_VERSION: ${docker_api_version} # https://github.com/docker/cli/issues/2533
       TZ: ${timezone}
 
-  genericWithContainerUser:
+  genericReadOnly:
+    extends:
+      service: generic
+    read_only: true
+
+  genericReadOnlyAsContainerUserNoCap:
+    extends:
+      service: genericReadOnly
+    user: ${uid}:${gid}
+    cap_drop: [all] # Drop all Linux capabilities
+
+  genericAsContainerUser:
     extends:
       service: generic
     user: ${uid}:${gid}
@@ -23,12 +34,23 @@ services:
       caddy_0.@denied.not_0: "remote_ip ${private_ip_range}"
       caddy_0.abort: "@denied"
 
-  privateWithContainerUser:
+  privateReadOnly:
+    extends:
+      service: private
+    read_only: true
+
+  privateReadOnlyAsContainerUserNoCap:
+    extends:
+      service: privateReadOnly
+    user: ${uid}:${gid}
+    cap_drop: [all] # Drop all Linux capabilities
+
+  privateAsContainerUser:
     extends:
       service: private
     user: ${uid}:${gid}
 
-  privateWithEnvironmentUser:
+  privateAsEnvironmentUser:
     extends:
       service: private
     environment:

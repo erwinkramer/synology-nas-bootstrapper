@@ -4,7 +4,7 @@ services:
     image: ptr727/vscode-server-dotnetcore:latest
     extends:
       file: ../docker-common/base.yaml
-      service: privateWithEnvironmentUser
+      service: privateAsEnvironmentUser
     environment:
       DEFAULT_WORKSPACE: /config/workspace
     volumes:
@@ -22,7 +22,7 @@ services:
     image: postgres:latest
     extends:
       file: ../docker-common/base.yaml
-      service: genericWithContainerUser
+      service: genericAsContainerUser
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD_FILE: /run/secrets/interface_pw
@@ -49,7 +49,7 @@ services:
     image: coredns/coredns
     extends:
       file: ../docker-common/base.yaml
-      service: genericWithContainerUser
+      service: genericAsContainerUser
     volumes:
       - ${host_data_config_path}/coredns/:/coredns-config/
     command: -conf coredns-config/Corefile

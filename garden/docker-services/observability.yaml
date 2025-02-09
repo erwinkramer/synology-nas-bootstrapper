@@ -4,7 +4,7 @@ services:
     image: traefik/whoami:latest
     extends:
       file: ../docker-common/base.yaml
-      service: private
+      service: privateReadOnly
     environment:
       WHOAMI_PORT_NUMBER: 708
     labels:

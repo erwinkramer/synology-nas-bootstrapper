@@ -44,7 +44,7 @@ services:
     image: ghcr.io/steveiliop56/tinyauth:latest
     extends:
       file: ../docker-common/base.yaml
-      service: genericWithContainerUser
+      service: genericReadOnlyAsContainerUserNoCap
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     secrets:
@@ -67,9 +67,7 @@ services:
     image: favonia/cloudflare-ddns:latest
     extends:
       file: ../docker-common/base.yaml
-      service: genericWithContainerUser
-    read_only: true
-    cap_drop: [all] #Drop all Linux capabilities
+      service: genericReadOnlyAsContainerUserNoCap
     secrets:
       - cloudflare_api_token
     environment:
@@ -82,7 +80,7 @@ services:
     image: amir20/dozzle:latest
     extends:
       file: ../docker-common/base.yaml
-      service: privateWithContainerUser
+      service: privateReadOnlyAsContainerUserNoCap
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
@@ -95,11 +93,12 @@ services:
     image: containrrr/watchtower:latest
     extends:
       file: ../docker-common/base.yaml
-      service: genericWithContainerUser
+      service: genericReadOnlyAsContainerUserNoCap
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       WATCHTOWER_CLEANUP: true
       WATCHTOWER_INCLUDE_RESTARTING: true
-      WATCHTOWER_SCHEDULE: 0 30 * * * * # at 30 minutes past the hour, every hour
+      #WATCHTOWER_RUN_ONCE: true # run once and exit
+      WATCHTOWER_SCHEDULE: 0 */15 * * * * # every 15 minutes
       WATCHTOWER_TIMEOUT: 25 # seconds
