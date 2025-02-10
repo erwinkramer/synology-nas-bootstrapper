@@ -48,10 +48,11 @@ services:
       service: private
     read_only: true
 
-  privateReadOnlyAsContainerUser:
+  privateReadOnlyAsContainerUserNoCap:
     extends:
       service: privateReadOnly
     user: ${uid}:${gid}
+    cap_drop: [all] # Drop all Linux capabilities
 
   privateAsContainerUser:
     extends:
