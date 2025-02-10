@@ -4,7 +4,7 @@ services:
     image: jellyfin/jellyfin:latest
     extends:
       file: ../docker-common/base.yaml
-      service: privateAsContainerUser
+      service: privateAsContainerUserNoCap
     environment:
       JELLYFIN_PublishedServerUrl: ${private_protocol}jellyfin.${private_domain}:80
     volumes:
@@ -69,7 +69,7 @@ services:
     image: qbittorrentofficial/qbittorrent-nox:latest
     extends:
       file: ../docker-common/base.yaml
-      service: privateAsContainerUser
+      service: privateAsContainerUserNoCap
     environment:
       QBT_WEBUI_PORT: 32500
       QBT_LEGAL_NOTICE: confirm
