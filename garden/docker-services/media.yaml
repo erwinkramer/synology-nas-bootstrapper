@@ -10,7 +10,7 @@ services:
     volumes:
       - ${host_data_config_path}/jellyfin/cache:/cache
       - ${host_data_config_path}/jellyfin/config:/config
-      - ${host_data_media_path}:/media
+      - ${host_data_media_path}:/media:ro
     group_add:
       - ${vgid}
     labels:
