@@ -22,7 +22,7 @@ services:
     image: postgres:latest
     extends:
       file: ../docker-common/base.yaml
-      service: genericAsContainerUser
+      service: genericAsContainerUserNoCap
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD_FILE: /run/secrets/interface_pw

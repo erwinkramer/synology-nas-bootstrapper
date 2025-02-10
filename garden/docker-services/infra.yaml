@@ -44,7 +44,7 @@ services:
     image: ghcr.io/steveiliop56/tinyauth:latest
     extends:
       file: ../docker-common/base.yaml
-      service: genericReadOnlyAsContainerUserNoCap
+      service: genericReadOnlyAsContainerUser
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     secrets:
@@ -80,7 +80,7 @@ services:
     image: amir20/dozzle:latest
     extends:
       file: ../docker-common/base.yaml
-      service: privateReadOnlyAsContainerUserNoCap
+      service: privateReadOnlyAsContainerUser
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
@@ -93,7 +93,7 @@ services:
     image: containrrr/watchtower:latest
     extends:
       file: ../docker-common/base.yaml
-      service: genericReadOnlyAsContainerUserNoCap
+      service: genericReadOnlyAsContainerUser
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:

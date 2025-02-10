@@ -16,16 +16,25 @@ services:
       service: generic
     read_only: true
 
-  genericReadOnlyAsContainerUserNoCap:
+  genericReadOnlyAsContainerUser:
     extends:
       service: genericReadOnly
     user: ${uid}:${gid}
+
+  genericReadOnlyAsContainerUserNoCap:
+    extends:
+      service: genericReadOnlyAsContainerUser
     cap_drop: [all] # Drop all Linux capabilities
 
   genericAsContainerUser:
     extends:
       service: generic
     user: ${uid}:${gid}
+
+  genericAsContainerUserNoCap:
+    extends:
+      service: genericAsContainerUser
+    cap_drop: [all] # Drop all Linux capabilities
 
   private:
     extends:
@@ -39,16 +48,20 @@ services:
       service: private
     read_only: true
 
-  privateReadOnlyAsContainerUserNoCap:
+  privateReadOnlyAsContainerUser:
     extends:
       service: privateReadOnly
     user: ${uid}:${gid}
-    cap_drop: [all] # Drop all Linux capabilities
 
   privateAsContainerUser:
     extends:
       service: private
     user: ${uid}:${gid}
+
+  privateAsContainerUserNoCap:
+    extends:
+      service: privateAsContainerUser
+    cap_drop: [all] # Drop all Linux capabilities
 
   privateAsEnvironmentUser:
     extends:

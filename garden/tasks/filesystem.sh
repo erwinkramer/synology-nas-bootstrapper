@@ -39,7 +39,7 @@ datafolders=(
     "config/bazarr"
 )
 
-groupname="docker"
+groupname="dockerlimited"
 username="dockerlimited"
 email="info@guanchen.nl"
 password=$(openssl rand -base64 12)
