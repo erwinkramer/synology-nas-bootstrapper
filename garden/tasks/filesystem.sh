@@ -54,14 +54,14 @@ for folder in "${dockerfolders[@]}"; do
     mkdir -p "$volume/$sharedockerfoldername/$folder"
 done
 
-if ! synouser --get $username; then
+if ! synouser --get $username > /dev/null 2>&1; then
     echo "setting user $username with random password $password..."
     synouser --add "$username" "$password" "Docker Account" 0 "$email" 0
 else
     echo "user '$username' already exists"
 fi
 
-if ! synogroup --get $groupname; then
+if ! synogroup --get $groupname > /dev/null 2>&1; then
     echo "setting group $groupname..."
     synogroup --add "$groupname" "$username"
 else
@@ -69,7 +69,7 @@ else
 fi
 
 for sharename in $shareddatafoldername $sharedockerfoldername; do
-    if ! synoshare --get $sharename; then
+    if ! synoshare --get $sharename > /dev/null 2>&1; then
         echo "setting share $sharename..."
         synoshare --add "$sharename" "${sharename^} folder" "$volume/$sharename" "" "" "" 1 0
     else
@@ -77,7 +77,9 @@ for sharename in $shareddatafoldername $sharedockerfoldername; do
     fi
 
     echo "setting share permission on $sharename..."
-    synoshare --setuser "$sharename" RW + "@$groupname"
+    if ! synoshare --setuser "$sharename" RW + "@$groupname" > /dev/null 2>&1; then
+        echo "Error setting share permission on $sharename"
+    fi
 done
 
 userid=$(synouser --get $username | awk -F "[][{}]" '/User uid/ { print $2 }')
@@ -114,4 +116,4 @@ for var in "${!env_vars[@]}"; do
     fi
 done
 
-echo "script done"
+echo "filesystem script done"

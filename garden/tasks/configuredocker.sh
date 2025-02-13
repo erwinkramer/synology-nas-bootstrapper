@@ -19,7 +19,7 @@ declare -A ports=(
 groupname=$1
 
 currentAttempt=0
-totalAttempts=10
+totalAttempts=30
 delay=1
 
 echo "setting the ip tables..."
@@ -70,4 +70,4 @@ while [ $currentAttempt -lt $totalAttempts ]; do
 	fi
 done
 
-echo "script done"
+echo "configuredocker script done"

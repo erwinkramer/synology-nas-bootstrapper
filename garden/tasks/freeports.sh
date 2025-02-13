@@ -15,4 +15,4 @@ sed -i -e 's/80/81/' -e 's/443/444/' /usr/syno/share/nginx/server.mustache /usr/
 
 synosystemctl restart nginx
 
-echo "script done"
+echo "freeports script done"
