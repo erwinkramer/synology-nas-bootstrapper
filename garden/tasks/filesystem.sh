@@ -85,7 +85,8 @@ for sharename in $shareddatafoldername $sharedockerfoldername; do
     synoshare --setuser "$sharename" RW + "@$groupname"
 done
 
-echo "giving group ownership of 'docker.sock' to $groupname..."
+dockersockgroupowner=$(ls -ld /var/run/docker.sock | awk '{print $4}')
+echo "giving group ownership of 'docker.sock' from $dockersockgroupowner to $groupname..."
 chown root:$groupname /var/run/docker.sock
 
 userid=$(synouser --get $username | awk -F "[][{}]" '/User uid/ { print $2 }')
