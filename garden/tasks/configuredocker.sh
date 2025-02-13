@@ -42,7 +42,7 @@ while [ $currentAttempt -lt $totalAttempts ]; do
 		echo "Done!"
 		break
 	else
-		echo "Docker rules not found! Sleeping for $delay seconds..."
+		echo "Docker rules not found! Sleeping for $delay second(s)..."
 		sleep $delay
 	fi
 done
@@ -65,7 +65,7 @@ while [ $currentAttempt -lt $totalAttempts ]; do
 		echo "Done!"
 		break
 	else
-		echo "/var/run/docker.sock not found! Sleeping for $delay seconds..."
+		echo "/var/run/docker.sock not found! Sleeping for $delay second(s)..."
 		sleep $delay
 	fi
 done
