@@ -5,12 +5,7 @@
 By default, ports 80 and 443 are used by Nginx but we want to use it for caddy.
 Modifies port 80 and 443 to port 81 and 444 respectively.
 
-Control Panel > Task Scheduler > Create > Triggered Task > User-defined script. 
-
-Set User to 'root' and leave the Event as 'Boot-up',
-go to Task Settings and paste the following in User-defined script:
-
-bash /volume1/docker/projects/garden/tasks/freeports.sh
+Called from main.sh
 
 '
 

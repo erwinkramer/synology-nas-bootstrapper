@@ -5,12 +5,7 @@
 Create the user, group and shared folder structure with permissions for Docker. 
 Modifies the .env file for docker compose (or creates if not exists) with the uid and gid of the user and group created.
 
-Control Panel > Task Scheduler > Create > Triggered Task > User-defined script. 
-
-Set User to 'root' and leave the Event as 'Boot-up',
-go to Task Settings and paste the following in User-defined script:
-
-bash /volume1/docker/projects/garden/tasks/filesystem.sh
+Called from main.sh
 
 '
 
@@ -39,7 +34,7 @@ datafolders=(
     "config/bazarr"
 )
 
-groupname="dockerlimited"
+groupname=$1
 username="dockerlimited"
 email="info@guanchen.nl"
 password=$(openssl rand -base64 12)
@@ -84,10 +79,6 @@ for sharename in $shareddatafoldername $sharedockerfoldername; do
     echo "setting share permission on $sharename..."
     synoshare --setuser "$sharename" RW + "@$groupname"
 done
-
-dockersockgroupowner=$(ls -ld /var/run/docker.sock | awk '{print $4}')
-echo "giving group ownership of 'docker.sock' from $dockersockgroupowner to $groupname..."
-chown root:$groupname /var/run/docker.sock
 
 userid=$(synouser --get $username | awk -F "[][{}]" '/User uid/ { print $2 }')
 groupid=$(synogroup --get $groupname | awk -F "[][{}]" '/Group ID/ { print $2 }')
