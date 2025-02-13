@@ -20,19 +20,16 @@ groupname=$1
 
 currentAttempt=0
 totalAttempts=10
-delay=15
+delay=1
 
 echo "setting the ip tables..."
 
-while [ $currentAttempt -lt $totalAttempts ]
-do
-	currentAttempt=$(( $currentAttempt + 1 ))
-	
-	echo "Attempt $currentAttempt of $totalAttempts..."
-	
-	result=$(iptables-save)
+while [ $currentAttempt -lt $totalAttempts ]; do
+	currentAttempt=$(($currentAttempt + 1))
 
-	if [[ $result =~ "-A DOCKER -i docker0 -j RETURN" ]]; then
+	echo "Attempt $currentAttempt of $totalAttempts..."
+
+	if iptables-save | grep -q "\-A DOCKER -i docker0 -j RETURN"; then
 		echo "Docker rules found! Modifying..."
 
 		for protocol in "${!ports[@]}"; do
@@ -42,18 +39,35 @@ do
 			done
 		done
 
+		echo "Done!"
+		break
+	else
+		echo "Docker rules not found! Sleeping for $delay seconds..."
+		sleep $delay
+	fi
+done
+
+echo "setting the docker socket group permissions..."
+currentAttempt=0
+
+while [ $currentAttempt -lt $totalAttempts ]; do
+	currentAttempt=$(($currentAttempt + 1))
+
+	echo "Attempt $currentAttempt of $totalAttempts..."
+
+	if [ -e /var/run/docker.sock ]; then
+		echo "Docker socket found! Modifying..."
+
 		currentdockersockgroupowner=$(ls -ld /var/run/docker.sock | awk '{print $4}')
 		echo "giving group ownership of 'docker.sock' from $currentdockersockgroupowner to $groupname..."
 		chown root:$groupname /var/run/docker.sock
 
 		echo "Done!"
-		
 		break
+	else
+		echo "/var/run/docker.sock not found! Sleeping for $delay seconds..."
+		sleep $delay
 	fi
-	
-	echo "Docker rules not found! Sleeping for $delay seconds..."
-	
-	sleep $delay
 done
 
 echo "script done"

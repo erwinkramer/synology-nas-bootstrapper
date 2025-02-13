@@ -13,7 +13,7 @@ bash /volume1/docker/projects/garden/tasks/main.sh
 
 '
 
-scriptdir="$( dirname -- "$BASH_SOURCE"; )";
+scriptdir="$(dirname -- "$BASH_SOURCE")"
 
 $scriptdir/freeports.sh
 

@@ -5,6 +5,7 @@
         "ckolkman.vscode-postgres",
         "timonwong.shellcheck",
         "bierner.markdown-mermaid",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "foxundermoon.shell-format"
     ]
 }

@@ -110,7 +110,7 @@ for var in "${!env_vars[@]}"; do
     if grep -q "^$var=" $envfiledockercompose; then
         sed -i "/^$var=/c\\$var=${env_vars[$var]} $modifiedonbycomment" $envfiledockercompose
     else
-        echo "$var=${env_vars[$var]} $modifiedonbycomment" >> $envfiledockercompose
+        echo "$var=${env_vars[$var]} $modifiedonbycomment" >>$envfiledockercompose
     fi
 done
 
