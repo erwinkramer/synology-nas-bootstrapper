@@ -35,7 +35,7 @@ services:
       caddy_1.reverse_proxy: ${private_ip}:5000 #built-in DSM portal outside of docker
       caddy_2: (tinyauth_forwarder)
       caddy_2.forward_auth: tinyauth:3000
-      caddy_2.forward_auth.uri: /api/auth
+      caddy_2.forward_auth.uri: /api/auth/caddy
       caddy_3.auto_https: disable_redirects
       #caddy_4.debug: '' #enable debugging
 
