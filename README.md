@@ -64,9 +64,9 @@ extendspe -- private_ip_range check -->prv
 
 A Synology NAS, including:
 
-1. Container Manager `24.0.2-1525` or higher. At the time of writing, this version is only available by joining the [Beta program](https://www.synology.com/nl-nl/beta/ContainerManager24_0_2). Only this version supports Docker Compose `include` statements, introduced in Docker compose [2.20.3](https://docs.docker.com/compose/releases/release-notes/#2203), which this project uses.
+1. [Container Manager](https://www.synology.com/en-global/releaseNote/ContainerManager) `24.0.2-1525` or higher. Only this version supports Docker Compose `include` statements, introduced in Docker compose [2.20.3](https://docs.docker.com/compose/releases/release-notes/#2203), which this project uses.
 
-1. A compatible DSM version, confirmed to work on `7.2.2-72806 Update 2`.
+1. A compatible [DSM version](https://www.synology.com/nl-nl/releaseNote/DSM), confirmed to work on `7.2.2-72806` (Update 2 and 3).
 
 ## Synology configuration
 
