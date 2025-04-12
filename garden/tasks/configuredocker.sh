@@ -16,7 +16,7 @@ declare -A ports=(
 	[tcp]="80 443 6432 50777 53"
 	[udp]="53"
 )
-groupname=$1
+groupnamedocker=$1
 
 currentAttempt=0
 totalAttempts=30
@@ -59,8 +59,8 @@ while [ $currentAttempt -lt $totalAttempts ]; do
 		echo "Docker socket found! Modifying..."
 
 		currentdockersockgroupowner=$(ls -ld /var/run/docker.sock | awk '{print $4}')
-		echo "giving group ownership of 'docker.sock' from $currentdockersockgroupowner to $groupname..."
-		chown root:$groupname /var/run/docker.sock
+		echo "giving group ownership of 'docker.sock' from $currentdockersockgroupowner to $groupnamedocker..."
+		chown root:$groupnamedocker /var/run/docker.sock
 
 		echo "Done!"
 		break

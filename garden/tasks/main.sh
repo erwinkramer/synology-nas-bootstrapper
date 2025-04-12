@@ -14,10 +14,10 @@ bash /volume1/docker/projects/garden/tasks/main.sh
 '
 
 scriptdir="$(dirname -- "$BASH_SOURCE")"
-groupname="dockerlimited"
+groupnamedocker="dockerlimited"
 
 $scriptdir/freeports.sh
 
-$scriptdir/configuredocker.sh $groupname
+$scriptdir/configuredocker.sh $groupnamedocker
 
-$scriptdir/filesystem.sh $groupname
+$scriptdir/filesystem.sh $groupnamedocker

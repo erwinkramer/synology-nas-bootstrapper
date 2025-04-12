@@ -32,10 +32,12 @@ datafolders=(
     "config/radarr"
     "config/prowlarr"
     "config/bazarr"
+    "config/androidtv"
+    "config/windows"
 )
 
-groupname=$1
-username="dockerlimited"
+groupnamedocker=$1
+usernamedocker="dockerlimited"
 email="info@guanchen.nl"
 password=$(openssl rand -base64 12)
 
@@ -54,18 +56,18 @@ for folder in "${dockerfolders[@]}"; do
     mkdir -p "$volume/$sharedockerfoldername/$folder"
 done
 
-if ! synouser --get $username > /dev/null 2>&1; then
-    echo "setting user $username with random password $password..."
-    synouser --add "$username" "$password" "Docker Account" 0 "$email" 0
+if ! synouser --get $usernamedocker > /dev/null 2>&1; then
+    echo "setting user $usernamedocker with random password $password..."
+    synouser --add "$usernamedocker" "$password" "Docker Account" 0 "$email" 0
 else
-    echo "user '$username' already exists"
+    echo "user '$usernamedocker' already exists"
 fi
 
-if ! synogroup --get $groupname > /dev/null 2>&1; then
-    echo "setting group $groupname..."
-    synogroup --add "$groupname" "$username"
+if ! synogroup --get $groupnamedocker > /dev/null 2>&1; then
+    echo "setting group $groupnamedocker..."
+    synogroup --add "$groupnamedocker" "$usernamedocker"
 else
-    echo "group '$groupname' already exists"
+    echo "group '$groupnamedocker' already exists"
 fi
 
 for sharename in $shareddatafoldername $sharedockerfoldername; do
@@ -77,13 +79,13 @@ for sharename in $shareddatafoldername $sharedockerfoldername; do
     fi
 
     echo "setting share permission on $sharename..."
-    if ! synoshare --setuser "$sharename" RW + "@$groupname" > /dev/null 2>&1; then
+    if ! synoshare --setuser "$sharename" RW + "@$groupnamedocker" > /dev/null 2>&1; then
         echo "Error setting share permission on $sharename"
     fi
 done
 
-userid=$(synouser --get $username | awk -F "[][{}]" '/User uid/ { print $2 }')
-groupid=$(synogroup --get $groupname | awk -F "[][{}]" '/Group ID/ { print $2 }')
+userid=$(synouser --get $usernamedocker | awk -F "[][{}]" '/User uid/ { print $2 }')
+groupid=$(synogroup --get $groupnamedocker | awk -F "[][{}]" '/Group ID/ { print $2 }')
 videodrivergroupid=$(id -g videodriver)
 
 hostip=$(ip route get 1 | awk '{print $NF;exit}')
