@@ -2,7 +2,7 @@
 
 : '
 
-Create the user, group and shared folder structure with permissions for Docker. 
+Create the user, group and shared folder structure with permissions for users and groups. 
 Modifies the .env file for docker compose (or creates if not exists) with the uid and gid of the user and group created.
 
 Called from main.sh
@@ -14,24 +14,15 @@ usernamedocker="dockerlimited"
 email="info@guanchen.nl"
 currentdatetime=$(date '+%d-%m-%Y %H:%M:%S')
 modifiedonbycomment="# automatically modified by 'filesystem.sh' script on $currentdatetime"
-
 sharedockername="docker"
 sharedataname="data"
-
-declare -A share_permittedreadwriteobjects=(
-    [$sharedockername]="@$groupnamedocker"
-    [$sharedataname]="@$groupnamedocker"
-)
-
-declare -A share_permittedreadobjects=(
-    ["tv"]="tv"
-)
-
 volume=/volume1
 envfiledockercompose="$volume/$sharedockername/projects/garden/.env"
+
 dockerfolders=(
     "projects/garden"
 )
+
 datafolders=(
     "media/movies"
     "media/images"
@@ -63,6 +54,15 @@ declare -A user_descriptions=(
 
 declare -A group_users=(
     [$groupnamedocker]=$usernamedocker
+)
+
+declare -A share_permittedreadwriteobjects=(
+    [$sharedockername]="@$groupnamedocker"
+    [$sharedataname]="@$groupnamedocker"
+)
+
+declare -A share_permittedreadobjects=(
+    ["tv"]="tv"
 )
 
 echo "creating the data folder structure..."
