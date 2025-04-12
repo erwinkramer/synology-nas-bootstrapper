@@ -3,7 +3,7 @@
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/erwinkramer/synology-nas-bootstrapper)
 
-Bootstrap your Synology NAS setup with automatic provisioning for: filesystem structure, shares, docker user, docker group, permissions, network, container orchestration and `.env` variables. Just configure the scheduled tasks and the Docker Compose `.env` file with your own dns and folder variables, that's it.
+Bootstrap your Synology NAS setup with automatic provisioning for: filesystem structure, shares, users, groups, permissions, network, container orchestration and `.env` variables. Just configure the scheduled tasks and the Docker Compose `.env` file with your own dns and folder variables, that's it.
 
 Makes use of the Synology CLI [(pdf)](https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_DiskStation_Administration_CLI_Guide.pdf), Synology Task Scheduler and [Synology Container Manager](https://www.synology.com/nl-nl/dsm/feature/container-manager).
 
@@ -80,7 +80,7 @@ Remove the `.example` postfix of the files in the [secrets folder](garden/secret
 
 The [tasks folder](./garden/tasks/) provides boot scripts. Configure [garden/tasks/main.sh](/garden/tasks/main.sh) as specified the comment of that script. All scripts called by `main.sh` are idempotent and designed for repeated use without damaging an existing setup.
 
-1. [filesystem.sh](./garden/tasks/filesystem.sh) creates the filesystem structure, shares, docker user, docker group and permissions (inspired by [DrFrankenstein](https://drfrankenstein.co.uk/step-2-setting-up-a-restricted-docker-user-and-obtaining-ids/)), also modifies `.env` file variables.
+1. [filesystem.sh](./garden/tasks/filesystem.sh) creates the filesystem structure, shares, users, groups and permissions (inspired by [DrFrankenstein](https://drfrankenstein.co.uk/step-2-setting-up-a-restricted-docker-user-and-obtaining-ids/)), also modifies `.env` file variables.
 
 1. [configuredocker.sh](./garden/tasks/configuredocker.sh) fixes the iptables for docker (introduced by [Pedro Lamas](https://gist.github.com/pedrolamas)) and sets the group permissions for docker socket.
 
