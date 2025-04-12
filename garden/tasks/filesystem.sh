@@ -82,7 +82,7 @@ for username in "${!user_credentials[@]}"; do
     description=${user_descriptions[$username]}
 
     if ! synouser --get $username >/dev/null 2>&1; then
-        echo "setting user $username with password $password..."
+        echo "setting user $username with password $password, it might be wise to tick 'Disallow the user to change account password' in the portal for accounts with non-random passwords..."
         synouser --add "$username" "$password" "$description" 0 "$email" 0
     else
         echo "user '$username' already exists"
