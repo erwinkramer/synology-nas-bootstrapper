@@ -9,10 +9,26 @@ Called from main.sh
 
 '
 
-sharedockerfoldername=docker
-shareddatafoldername=data
+groupnamedocker=$1
+usernamedocker="dockerlimited"
+email="info@guanchen.nl"
+currentdatetime=$(date '+%d-%m-%Y %H:%M:%S')
+modifiedonbycomment="# automatically modified by 'filesystem.sh' script on $currentdatetime"
+
+sharedockername="docker"
+sharedataname="data"
+
+declare -A share_permittedreadwriteobjects=(
+    [$sharedockername]="@$groupnamedocker"
+    [$sharedataname]="@$groupnamedocker"
+)
+
+declare -A share_permittedreadobjects=(
+    ["tv"]="tv"
+)
+
 volume=/volume1
-envfiledockercompose="$volume/$sharedockerfoldername/projects/garden/.env"
+envfiledockercompose="$volume/$sharedockername/projects/garden/.env"
 dockerfolders=(
     "projects/garden"
 )
@@ -32,15 +48,8 @@ datafolders=(
     "config/radarr"
     "config/prowlarr"
     "config/bazarr"
-    "config/androidtv"
     "config/windows"
 )
-
-groupnamedocker=$1
-usernamedocker="dockerlimited"
-email="info@guanchen.nl"
-currentdatetime=$(date '+%d-%m-%Y %H:%M:%S')
-modifiedonbycomment="# automatically modified by 'filesystem.sh' script on $currentdatetime"
 
 declare -A user_credentials=(
     [$usernamedocker]=$(openssl rand -base64 12)
@@ -59,13 +68,13 @@ declare -A group_users=(
 echo "creating the data folder structure..."
 
 for folder in "${datafolders[@]}"; do
-    mkdir -p "$volume/$shareddatafoldername/$folder"
+    mkdir -p "$volume/$sharedataname/$folder"
 done
 
 echo "creating the docker folder structure..."
 
 for folder in "${dockerfolders[@]}"; do
-    mkdir -p "$volume/$sharedockerfoldername/$folder"
+    mkdir -p "$volume/$sharedockername/$folder"
 done
 
 for username in "${!user_credentials[@]}"; do
@@ -92,7 +101,15 @@ for group in "${!group_users[@]}"; do
     fi
 done
 
-for sharename in $shareddatafoldername $sharedockerfoldername; do
+for sharename in "${!share_permittedreadwriteobjects[@]}" "${!share_permittedreadobjects[@]}"; do
+    if [[ -n ${share_permittedreadwriteobjects[$sharename]} ]]; then
+        permittedobject=${share_permittedreadwriteobjects[$sharename]}
+        permission="RW"
+    elif [[ -n ${share_permittedreadobjects[$sharename]} ]]; then
+        permittedobject=${share_permittedreadobjects[$sharename]}
+        permission="RO"
+    fi
+
     if ! synoshare --get $sharename >/dev/null 2>&1; then
         echo "setting share $sharename..."
         synoshare --add "$sharename" "${sharename^} folder" "$volume/$sharename" "" "" "" 1 0
@@ -100,9 +117,9 @@ for sharename in $shareddatafoldername $sharedockerfoldername; do
         echo "share '$sharename' already exists"
     fi
 
-    echo "setting share permission on $sharename..."
-    if ! synoshare --setuser "$sharename" RW + "@$groupnamedocker" >/dev/null 2>&1; then
-        echo "Error setting share permission on $sharename"
+    echo "setting share permission on $sharename for user or group $permittedobject with $permission access..."
+    if ! synoshare --setuser "$sharename" $permission + "$permittedobject" >/dev/null 2>&1; then
+        echo "Error setting share permission on $sharename for user or group $permittedobject"
     fi
 done
 
