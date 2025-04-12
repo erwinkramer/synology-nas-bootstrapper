@@ -39,10 +39,22 @@ datafolders=(
 groupnamedocker=$1
 usernamedocker="dockerlimited"
 email="info@guanchen.nl"
-password=$(openssl rand -base64 12)
-
 currentdatetime=$(date '+%d-%m-%Y %H:%M:%S')
 modifiedonbycomment="# automatically modified by 'filesystem.sh' script on $currentdatetime"
+
+declare -A user_credentials=(
+    [$usernamedocker]=$(openssl rand -base64 12)
+    ["tv"]="tv"
+)
+
+declare -A user_descriptions=(
+    [$usernamedocker]="Docker Account"
+    ["tv"]="TV Account"
+)
+
+declare -A group_users=(
+    [$groupnamedocker]=$usernamedocker
+)
 
 echo "creating the data folder structure..."
 
@@ -56,22 +68,32 @@ for folder in "${dockerfolders[@]}"; do
     mkdir -p "$volume/$sharedockerfoldername/$folder"
 done
 
-if ! synouser --get $usernamedocker > /dev/null 2>&1; then
-    echo "setting user $usernamedocker with random password $password..."
-    synouser --add "$usernamedocker" "$password" "Docker Account" 0 "$email" 0
-else
-    echo "user '$usernamedocker' already exists"
-fi
+for username in "${!user_credentials[@]}"; do
+    password=${user_credentials[$username]}
+    description=${user_descriptions[$username]}
 
-if ! synogroup --get $groupnamedocker > /dev/null 2>&1; then
-    echo "setting group $groupnamedocker..."
-    synogroup --add "$groupnamedocker" "$usernamedocker"
-else
-    echo "group '$groupnamedocker' already exists"
-fi
+    if ! synouser --get $username >/dev/null 2>&1; then
+        echo "setting user $username with password $password..."
+        synouser --add "$username" "$password" "$description" 0 "$email" 0
+    else
+        echo "user '$username' already exists"
+    fi
+done
+
+for group in "${!group_users[@]}"; do
+    users=${group_users[$group]}
+
+    if ! synogroup --get $group >/dev/null 2>&1; then
+        echo "setting group $group with members..."
+        synogroup --add "$group" "$users"
+    else
+        echo "group '$group' already exists, correcting members..."
+        synogroup --member "$group" "$users"
+    fi
+done
 
 for sharename in $shareddatafoldername $sharedockerfoldername; do
-    if ! synoshare --get $sharename > /dev/null 2>&1; then
+    if ! synoshare --get $sharename >/dev/null 2>&1; then
         echo "setting share $sharename..."
         synoshare --add "$sharename" "${sharename^} folder" "$volume/$sharename" "" "" "" 1 0
     else
@@ -79,7 +101,7 @@ for sharename in $shareddatafoldername $sharedockerfoldername; do
     fi
 
     echo "setting share permission on $sharename..."
-    if ! synoshare --setuser "$sharename" RW + "@$groupnamedocker" > /dev/null 2>&1; then
+    if ! synoshare --setuser "$sharename" RW + "@$groupnamedocker" >/dev/null 2>&1; then
         echo "Error setting share permission on $sharename"
     fi
 done

@@ -16,8 +16,8 @@ bash /volume1/docker/projects/garden/tasks/main.sh
 scriptdir="$(dirname -- "$BASH_SOURCE")"
 groupnamedocker="dockerlimited"
 
+$scriptdir/filesystem.sh $groupnamedocker
+
 $scriptdir/freeports.sh
 
 $scriptdir/configuredocker.sh $groupnamedocker
-
-$scriptdir/filesystem.sh $groupnamedocker
