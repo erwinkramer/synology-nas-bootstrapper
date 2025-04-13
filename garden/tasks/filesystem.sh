@@ -121,7 +121,6 @@ echo "creating the data folder structure..."
 
 for folder in "${datafolders[@]}"; do
     folderpath="$volume/$sharedataname/$folder"
-
     mkdir -p $folderpath
 
     echo "giving user and group ownership of all folders and files under $folderpath to $usernamedocker:$groupnamedocker..."
@@ -132,11 +131,7 @@ echo "creating the docker folder structure..."
 
 for folder in "${dockerfolders[@]}"; do
     folderpath="$volume/$sharedockername/$folder"
-
     mkdir -p $folderpath
-
-    echo "giving user and group ownership of all folders and files under $folderpath to $usernamedocker:$groupnamedocker..."
-    chown -R "$usernamedocker:$groupnamedocker" $folderpath
 done
 
 echo "preparing the .env file variables..."
