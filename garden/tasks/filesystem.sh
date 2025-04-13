@@ -56,26 +56,16 @@ declare -A group_users=(
     [$groupnamedocker]=$usernamedocker
 )
 
-declare -A share_permittedreadwriteobjects=(
-    [$sharedockername]="@$groupnamedocker"
-    [$sharedataname]="@$groupnamedocker"
+declare -A share_permittedreadwritegroups=(
+    [$sharedockername]="$groupnamedocker"
+    [$sharedataname]="$groupnamedocker"
 )
 
 declare -A share_permittedreadobjects=(
     ["tv"]="tv"
 )
 
-echo "creating the data folder structure..."
-
-for folder in "${datafolders[@]}"; do
-    mkdir -p "$volume/$sharedataname/$folder"
-done
-
-echo "creating the docker folder structure..."
-
-for folder in "${dockerfolders[@]}"; do
-    mkdir -p "$volume/$sharedockername/$folder"
-done
+echo "creating the user structure..."
 
 for username in "${!user_credentials[@]}"; do
     password=${user_credentials[$username]}
@@ -89,6 +79,8 @@ for username in "${!user_credentials[@]}"; do
     fi
 done
 
+echo "creating the group and members structure..."
+
 for group in "${!group_users[@]}"; do
     users=${group_users[$group]}
 
@@ -101,9 +93,11 @@ for group in "${!group_users[@]}"; do
     fi
 done
 
-for sharename in "${!share_permittedreadwriteobjects[@]}" "${!share_permittedreadobjects[@]}"; do
-    if [[ -n ${share_permittedreadwriteobjects[$sharename]} ]]; then
-        permittedobject=${share_permittedreadwriteobjects[$sharename]}
+echo "creating the share structure..."
+
+for sharename in "${!share_permittedreadwritegroups[@]}" "${!share_permittedreadobjects[@]}"; do
+    if [[ -n ${share_permittedreadwritegroups[$sharename]} ]]; then
+        permittedobject="@${share_permittedreadwritegroups[$sharename]}"
         permission="RW"
     elif [[ -n ${share_permittedreadobjects[$sharename]} ]]; then
         permittedobject=${share_permittedreadobjects[$sharename]}
@@ -122,6 +116,30 @@ for sharename in "${!share_permittedreadwriteobjects[@]}" "${!share_permittedrea
         echo "Error setting share permission on $sharename for user or group $permittedobject"
     fi
 done
+
+echo "creating the data folder structure..."
+
+for folder in "${datafolders[@]}"; do
+    folderpath="$volume/$sharedataname/$folder"
+
+    mkdir -p $folderpath
+
+    echo "giving user and group ownership of all folders and files under $folderpath to $usernamedocker:$groupnamedocker..."
+    chown -R "$usernamedocker:$groupnamedocker" $folderpath
+done
+
+echo "creating the docker folder structure..."
+
+for folder in "${dockerfolders[@]}"; do
+    folderpath="$volume/$sharedockername/$folder"
+
+    mkdir -p $folderpath
+
+    echo "giving user and group ownership of all folders and files under $folderpath to $usernamedocker:$groupnamedocker..."
+    chown -R "$usernamedocker:$groupnamedocker" $folderpath
+done
+
+echo "preparing the .env file variables..."
 
 userid=$(synouser --get $usernamedocker | awk -F "[][{}]" '/User uid/ { print $2 }')
 groupid=$(synogroup --get $groupnamedocker | awk -F "[][{}]" '/Group ID/ { print $2 }')
