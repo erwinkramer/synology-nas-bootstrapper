@@ -124,6 +124,7 @@ for folder in "${datafolders[@]}"; do
     mkdir -p $folderpath
 
     if [[ $folder == *"postgres"* ]]; then
+        # owner (UID) of /var/lib/postgresql/data should match the user running the postgres container, see https://github.com/docker-library/docs/blob/master/postgres/README.md#arbitrary---user-notes
         echo "postgres folder detected; giving ownership of all folders and files under $folderpath to $usernamedocker user and $groupnamedocker group..."
         chown -R "$usernamedocker:$groupnamedocker" $folderpath
     else
