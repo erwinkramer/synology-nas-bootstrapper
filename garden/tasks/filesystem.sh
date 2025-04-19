@@ -123,8 +123,13 @@ for folder in "${datafolders[@]}"; do
     folderpath="$volume/$sharedataname/$folder"
     mkdir -p $folderpath
 
-    echo "giving user and group ownership of all folders and files under $folderpath to $usernamedocker:$groupnamedocker..."
-    chown -R "$usernamedocker:$groupnamedocker" $folderpath
+    if [[ $folder == *"postgres"* ]]; then
+        echo "postgres folder detected; giving ownership of all folders and files under $folderpath to $usernamedocker user and $groupnamedocker group..."
+        chown -R "$usernamedocker:$groupnamedocker" $folderpath
+    else
+        echo "giving group ownership of all folders and files under $folderpath to $groupnamedocker..."
+        chown -R ":$groupnamedocker" $folderpath
+    fi
 done
 
 echo "creating the docker folder structure..."

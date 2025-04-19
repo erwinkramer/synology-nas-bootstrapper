@@ -36,6 +36,7 @@ services:
     volumes:
       - ${host_data_config_path}/postgres/data:/var/lib/postgresql/data
       - ${host_data_config_path}/postgres/scripts:/docker-entrypoint-initdb.d/
+      - /etc/passwd:/etc/passwd:ro # see https://github.com/docker-library/docs/blob/master/postgres/README.md#arbitrary---user-notes
     secrets:
       - interface_pw
     labels:
