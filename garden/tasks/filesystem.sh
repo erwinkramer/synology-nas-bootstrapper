@@ -144,7 +144,12 @@ hostip=$(ip route get 1 | awk '{print $NF;exit}')
 hostrange=$(ip -o -f inet addr show eth0 | awk '{print $4}' | sed 's/\.[0-9]\+\//.0\//')
 
 timezone=$(readlink /etc/localtime | sed 's|.*/zoneinfo/||')
-dockerversion=$(sudo docker version --format '{{.Client.APIVersion}}')
+
+# Wait for Docker to be available and get the client API version
+while ! dockerversion=$(docker version --format '{{.Client.APIVersion}}' 2>/dev/null); do
+    echo "waiting for Docker to be available..."
+    sleep 1
+done
 
 echo "setting .env file variables..."
 touch $envfiledockercompose
