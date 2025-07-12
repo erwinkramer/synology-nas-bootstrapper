@@ -62,8 +62,8 @@ services:
       caddy_0: ${public_protocol}${public_auth_domain}
       caddy_0.reverse_proxy: "{{upstreams 3000}}"
 
-  cloudflare-ddns:
-    container_name: cloudflare-ddns
+  cloudflare-ddns-public:
+    container_name: cloudflare-ddns-public
     image: favonia/cloudflare-ddns:latest
     extends:
       file: ../docker-common/base.yaml
@@ -75,8 +75,8 @@ services:
       DOMAINS: "*.${public_domain},${public_auth_domain}"
       IP6_PROVIDER: none
 
-  cloudflare-ddns-local:
-    container_name: cloudflare-ddns-local
+  cloudflare-ddns-private:
+    container_name: cloudflare-ddns-private
     image: favonia/cloudflare-ddns:latest
     extends:
       file: ../docker-common/base.yaml
