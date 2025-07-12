@@ -43,8 +43,8 @@ extendscr4[docker extends service/base]
 end
 
 subgraph cm[backend containers]
-int[watchtower/cloudflare-ddns]
 postgres
+int[watchtower/cloudflare-ddns]
 ext[whoami]
 prv[whoami/dozzle/jellyfin/qbittorrent/code]
 end
