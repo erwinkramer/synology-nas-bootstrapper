@@ -90,7 +90,7 @@ The [tasks folder](./garden/tasks/) provides boot scripts. Configure [garden/tas
 
 The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all containers. Create a project called `garden` in Container Manager based on this file, and fill in the variables in the `.env` file. It does the following:
 
-1. Provisions `watchtower` and `cloudflare-ddns` as internal services without inbound traffic.
+1. Provisions `watchtower`, `cloudflare-ddns-private` and `cloudflare-ddns-public` as internal services without inbound traffic.
 
 1. Configures `caddy` as reverse proxy for all inbound traffic.
 
