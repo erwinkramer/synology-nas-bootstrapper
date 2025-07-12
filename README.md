@@ -28,7 +28,7 @@ end
 subgraph router L3
 6432[port 6432]
 80[port 80]
-443[port 443]
+forwardedports[port 443, 50777]
 end
 
 subgraph cr7[frontend Caddy L7]
@@ -52,7 +52,7 @@ end
 privateservices -- A record '*.yourinternal' to local NAS ip  --> 80 --> extendspe
 
 6432 --> extendscr4
-externalservices -- A record '*.yourexternal' to public ip (DDNS) --> 443 -- port forwarding to local NAS ip --> extendspub
+externalservices -- A record '*.yourexternal' to public ip (DDNS) --> forwardedports -- port forwarding to local NAS ip --> extendspub
 extendscr7 --> int
 extendscr4 --> postgres
 
