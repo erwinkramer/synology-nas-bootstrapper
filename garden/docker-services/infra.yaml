@@ -75,6 +75,20 @@ services:
       DOMAINS: "*.${public_domain},${public_auth_domain}"
       IP6_PROVIDER: none
 
+  cloudflare-ddns-local:
+    container_name: cloudflare-ddns-local
+    image: favonia/cloudflare-ddns:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: genericOnHostReadOnlyAsContainerUserNoCap
+    secrets:
+      - cloudflare_api_token
+    environment:
+      CLOUDFLARE_API_TOKEN_FILE: /run/secrets/cloudflare_api_token
+      DOMAINS: "*.${private_domain}"
+      IP4_PROVIDER: local
+      IP6_PROVIDER: none
+
   dozzle:
     container_name: dozzle
     image: amir20/dozzle:latest
