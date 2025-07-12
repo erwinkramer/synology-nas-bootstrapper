@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
     hostname: ${nas_name}
     security_opt: [no-new-privileges:true]
-    environment: 
+    environment:
       <<: *base_environment
 
   # 🧭 Host networking config
@@ -61,7 +61,15 @@ services:
     <<: [*base, *eden_network, *readonly, *private_labels]
 
   privateReadOnlyAsContainerUserNoCap:
-    <<: [*base, *eden_network, *readonly, *container_user, *no_caps, *private_labels]
+    <<:
+      [
+        *base,
+        *eden_network,
+        *readonly,
+        *container_user,
+        *no_caps,
+        *private_labels,
+      ]
 
   privateAsContainerUserNoCap:
     <<: [*base, *eden_network, *container_user, *no_caps, *private_labels]
@@ -70,4 +78,3 @@ services:
     <<: [*base, *eden_network, *private_labels]
     environment:
       <<: [*base_environment, *environment_user]
-
