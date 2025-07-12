@@ -141,7 +141,9 @@ groupid=$(synogroup --get $groupnamedocker | awk -F "[][{}]" '/Group ID/ { print
 videodrivergroupid=$(id -g videodriver)
 
 hostip=$(ip route get 1 | awk '{print $NF;exit}')
-hostrange=$(ip -o -f inet addr show eth0 | awk '{print $4}' | sed 's/\.[0-9]\+\//.0\//')
+
+default_interface=$(ip route | awk '/default/ {print $5}' | head -n1)
+hostrange=$(ip -o -f inet addr show "$default_interface" | awk '{print $4}' | sed 's/\.[0-9]\+\//.0\//')
 
 timezone=$(readlink /etc/localtime | sed 's|.*/zoneinfo/||')
 

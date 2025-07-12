@@ -36,6 +36,7 @@ while [ $currentAttempt -lt $totalAttempts ]; do
 			for port in ${ports[$protocol]}; do
 				echo "setting $protocol port '$port' for docker"
 				iptables -t nat -A PREROUTING -p $protocol --dport $port -m addrtype --dst-type LOCAL -j DOCKER
+				iptables -t nat -A OUTPUT -p $protocol --dport $port -m addrtype --dst-type LOCAL -j DOCKER
 			done
 		done
 
