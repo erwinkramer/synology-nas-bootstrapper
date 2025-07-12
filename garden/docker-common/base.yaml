@@ -48,14 +48,14 @@ services:
   generic:
     <<: [*base, *eden_network]
 
+  genericAsContainerUser:
+    <<: [*base, *eden_network, *container_user]
+
   genericReadOnlyAsContainerUserNoCap:
     <<: [*base, *eden_network, *readonly, *container_user, *no_caps]
 
   genericOnHostReadOnlyAsContainerUserNoCap:
     <<: [*base, *host_network, *readonly, *container_user, *no_caps]
-
-  genericAsContainerUser:
-    <<: [*base, *eden_network, *container_user]
 
   privateReadOnly:
     <<: [*base, *eden_network, *readonly, *private_labels]
