@@ -1,96 +1,73 @@
-# reuse in extends: https://docs.docker.com/compose/how-tos/multiple-compose-files/extends/
-
 services:
-  genericOnHost:
-    restart: unless-stopped
-    hostname: ${nas_name}
-    security_opt: [no-new-privileges:true]
-    network_mode: host
-    environment:
-      DOCKER_API_VERSION: ${docker_api_version} # https://github.com/docker/cli/issues/2533
-      TZ: ${timezone}
+  # 🏗️ Base environment anchor
+  base_environment: &base_environment
+    DOCKER_API_VERSION: ${docker_api_version} # https://github.com/docker/cli/issues/2533
+    TZ: ${timezone}
 
-  generic:
+  # 🧱 Base configurations
+  base: &base
     restart: unless-stopped
     hostname: ${nas_name}
     security_opt: [no-new-privileges:true]
+    environment: 
+      <<: *base_environment
+
+  # 🧭 Host networking config
+  host_network: &host_network
+    network_mode: host
+
+  # 🌐 User-defined network config
+  eden_network: &eden_network
     networks:
       - eden
-    environment:
-      DOCKER_API_VERSION: ${docker_api_version} # https://github.com/docker/cli/issues/2533
-      TZ: ${timezone}
 
-  genericReadOnly:
-    extends:
-      service: generic
+  # 🔒 Read-only config
+  readonly: &readonly
     read_only: true
 
-  genericOnHostReadOnly:
-    extends:
-      service: genericOnHost
-    read_only: true
-
-  genericOnHostReadOnlyAsContainerUser:
-    extends:
-      service: genericOnHostReadOnly
+  # 👤 Container user
+  container_user: &container_user
     user: ${uid}:${gid}
 
-  genericReadOnlyAsContainerUser:
-    extends:
-      service: genericReadOnly
-    user: ${uid}:${gid}
+  # 👤 Environment user
+  environment_user: &environment_user
+    PUID: ${uid}
+    PGID: ${gid}
 
-  genericReadOnlyAsContainerUserNoCap:
-    extends:
-      service: genericReadOnlyAsContainerUser
-    cap_drop: [all] # Drop all Linux capabilities
+  # 🧢 Drop capabilities
+  no_caps: &no_caps
+    cap_drop: [all]
 
-  genericOnHostReadOnlyAsContainerUserNoCap:
-    extends:
-      service: genericOnHostReadOnlyAsContainerUser
-    cap_drop: [all] # Drop all Linux capabilities
-
-  genericAsContainerUser:
-    extends:
-      service: generic
-    user: ${uid}:${gid}
-
-  genericAsContainerUserNoCap:
-    extends:
-      service: genericAsContainerUser
-    cap_drop: [all] # Drop all Linux capabilities
-
-  private:
-    extends:
-      service: generic
+  # 🏷️ Private labels
+  private_labels: &private_labels
     labels:
       caddy_0.@denied.not_0: "remote_ip ${private_ip_range}"
       caddy_0.abort: "@denied"
 
+  # 🧩 Services
+  generic:
+    <<: [*base, *eden_network]
+
+  genericReadOnlyAsContainerUserNoCap:
+    <<: [*base, *eden_network, *readonly, *container_user, *no_caps]
+
+  genericOnHostReadOnlyAsContainerUserNoCap:
+    <<: [*base, *host_network, *readonly, *container_user, *no_caps]
+
+  genericAsContainerUser:
+    <<: [*base, *eden_network, *container_user]
+
   privateReadOnly:
-    extends:
-      service: private
-    read_only: true
+    <<: [*base, *eden_network, *readonly, *private_labels]
 
   privateReadOnlyAsContainerUserNoCap:
-    extends:
-      service: privateReadOnly
-    user: ${uid}:${gid}
-    cap_drop: [all] # Drop all Linux capabilities
-
-  privateAsContainerUser:
-    extends:
-      service: private
-    user: ${uid}:${gid}
+    <<: [*base, *eden_network, *readonly, *container_user, *no_caps, *private_labels]
 
   privateAsContainerUserNoCap:
-    extends:
-      service: privateAsContainerUser
-    cap_drop: [all] # Drop all Linux capabilities
+    <<: [*base, *eden_network, *container_user, *no_caps, *private_labels]
 
   privateAsEnvironmentUser:
-    extends:
-      service: private
+    <<: [*base, *eden_network, *private_labels]
     environment:
-      PUID: ${uid}
-      PGID: ${gid}
+      <<: [*base_environment, *environment_user]
+
