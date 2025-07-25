@@ -104,7 +104,7 @@ services:
 
   watchtower:
     container_name: watchtower
-    image: containrrr/watchtower:latest
+    image: ghcr.io/nicholas-fedor/watchtower:latest
     extends:
       file: ../docker-common/base.yaml
       service: genericReadOnlyAsContainerUserNoCap

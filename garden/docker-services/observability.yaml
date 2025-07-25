@@ -1,7 +1,7 @@
 services:
   whoami:
     container_name: whoami
-    image: traefik/whoami:latest
+    image: ghcr.io/traefik/whoami:latest
     extends:
       file: ../docker-common/base.yaml
       service: privateReadOnly
