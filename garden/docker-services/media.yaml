@@ -1,7 +1,7 @@
 services:
   jellyfin:
     container_name: jellyfin
-    image: jellyfin/jellyfin:latest
+    image: ghcr.io/jellyfin/jellyfin:latest
     extends:
       file: ../docker-common/base.yaml
       service: privateAsContainerUserNoCap
@@ -22,7 +22,7 @@ services:
 
   prowlarr:
     container_name: prowlarr
-    image: hotio/prowlarr:latest
+    image: ghcr.io/hotio/prowlarr:latest
     extends:
       file: ../docker-common/base.yaml
       service: privateAsEnvironmentUser
@@ -35,7 +35,7 @@ services:
 
   radarr:
     container_name: radarr
-    image: hotio/radarr:latest
+    image: ghcr.io/hotio/radarr:latest
     extends:
       file: ../docker-common/base.yaml
       service: privateAsEnvironmentUser
@@ -49,7 +49,7 @@ services:
 
   bazarr:
     container_name: bazarr
-    image: hotio/bazarr:latest
+    image: ghcr.io/hotio/bazarr:latest
     extends:
       file: ../docker-common/base.yaml
       service: privateAsEnvironmentUser
