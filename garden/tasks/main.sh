@@ -22,4 +22,4 @@ $scriptdir/freeports.sh
 
 $scriptdir/configuredocker.sh $groupnamedocker
 
-docker compose -f /volume1/docker/projects/garden/docker-compose.yaml up -d
+docker compose -f "$scriptdir/../docker-compose.yaml" up -d

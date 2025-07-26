@@ -13,4 +13,6 @@ bash /volume1/docker/projects/garden/tasks/main-shutdown.sh
 
 '
 
-docker compose -f /volume1/docker/projects/garden/docker-compose.yaml stop -t 60
+scriptdir="$(dirname -- "$BASH_SOURCE")"
+
+docker compose -f "$scriptdir/../docker-compose.yaml" stop -t 60
