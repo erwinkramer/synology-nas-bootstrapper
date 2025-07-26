@@ -113,6 +113,7 @@ services:
     environment:
       WATCHTOWER_CLEANUP: true
       WATCHTOWER_INCLUDE_RESTARTING: true
+      #WATCHTOWER_DEBUG: true
       #WATCHTOWER_RUN_ONCE: true # run once and exit
       WATCHTOWER_SCHEDULE: 0 */15 * * * * # every 15 minutes
       WATCHTOWER_TIMEOUT: 25 # seconds
