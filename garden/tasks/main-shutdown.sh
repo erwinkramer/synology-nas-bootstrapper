@@ -13,4 +13,4 @@ bash /volume1/docker/projects/garden/tasks/main-shutdown.sh
 
 '
 
-sudo docker compose -f /volume1/docker/projects/garden/docker-compose.yaml stop
+docker compose -f /volume1/docker/projects/garden/docker-compose.yaml stop -t 60
