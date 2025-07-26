@@ -78,13 +78,19 @@ Remove the `.example` postfix of the files in the [secrets folder](garden/secret
 
 ### Tasks
 
-The [tasks folder](./garden/tasks/) provides boot scripts. Configure [garden/tasks/main.sh](/garden/tasks/main.sh) as specified the comment of that script. All scripts called by `main.sh` are idempotent and designed for repeated use without damaging an existing setup.
+The [tasks folder](./garden/tasks/) provides boot-up and shutdown scripts. 
+
+For shutdown, configure [garden/tasks/main-shutdown.sh](/garden/tasks/main-shutdown.sh) as specified in the comment of that script. 
+
+For boot-up, configure [garden/tasks/main.sh](/garden/tasks/main.sh) as specified in the comment of that script. The following scripts are part of main:
 
 1. [filesystem.sh](./garden/tasks/filesystem.sh) creates the filesystem structure, shares, users, groups and permissions (inspired by [DrFrankenstein](https://drfrankenstein.co.uk/step-2-setting-up-a-restricted-docker-user-and-obtaining-ids/)), also modifies `.env` file variables.
 
 1. [configuredocker.sh](./garden/tasks/configuredocker.sh) fixes the iptables for docker (introduced by [Pedro Lamas](https://gist.github.com/pedrolamas)) and sets the group permissions for docker socket.
 
 1. [freeports.sh](./garden/tasks/freeports.sh) frees port 443 and 80 for own use.
+
+> All scripts are idempotent and designed for repeated use without damaging an existing setup.
 
 ### Containers
 
