@@ -7,12 +7,29 @@ networks:
         - subnet: 172.21.0.0/16
 
 services:
+  asusrouter:
+    container_name: asusrouter
+    build:
+      context: ../docker-asusrouter
+      dockerfile: Dockerfile
+    extends:
+      file: ../docker-common/base.yaml
+      service: generic
+    secrets:
+      - router_pw
+    environment:
+      ROUTER_HOST: ${router_host}
+      ROUTER_USER: ${router_user}
+      ROUTER_PW_FILE: /run/secrets/router_pw
+    volumes:
+      - ${host_data_config_path}/asusrouter:/app/scripts
+
   # for dozzle log errors in caddy, it's expected. See: https://github.com/amir20/dozzle/issues/2844
   caddy:
     container_name: based
     build:
-      context: ../docker-file
-      dockerfile: caddy-docker-proxy.dockerfile
+      context: ../docker-caddy
+      dockerfile: Dockerfile
     extends:
       file: ../docker-common/base.yaml
       service: generic

@@ -27,6 +27,7 @@ datafolders=(
     "media/movies"
     "media/images"
     "downloads"
+    "config/asusrouter"
     "config/synology"
     "config/qBittorrent"
     "config/jellyfin/cache"

@@ -3,6 +3,8 @@ name: garden
 secrets:
   interface_pw:
     file: ./secrets/interface_pw.txt
+  router_pw:
+    file: ./secrets/router_pw.txt
   github_client_secret:
     file: ./secrets/github_client_secret.txt
   tinyauth_cookie_secret:
