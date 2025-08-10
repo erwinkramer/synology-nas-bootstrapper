@@ -1,6 +1,7 @@
 import logging
 import asyncio
 import os
+import signal
 
 import aiohttp
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -82,6 +83,17 @@ async def set_forwarding(router: AsusRouter):
 
 async def main():
     """Main async function to start the scheduler and manage the aiohttp session."""
+    stop_event = asyncio.Event()
+
+    def shutdown(sig, frame):
+        log.info("Shutdown signal received, shutting down gracefully...")
+        stop_event.set()
+
+    # Register signal handlers for graceful shutdown
+    # SIGINT for local shutdown (Ctrl+C), SIGTERM for Docker
+    signal.signal(signal.SIGINT, shutdown)
+    signal.signal(signal.SIGTERM, shutdown)
+
     async with aiohttp.ClientSession() as session:
         scheduler = AsyncIOScheduler()
 
@@ -102,14 +114,9 @@ async def main():
         log.info("Scheduler started.")
         scheduler.start()
 
-        try:
-            while True:
-                await asyncio.sleep(3600)
-        except (KeyboardInterrupt, SystemExit):
-            scheduler.shutdown()
+        await stop_event.wait()
+        scheduler.shutdown()
+        log.info("Scheduler shut down.")
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except (KeyboardInterrupt, SystemExit):
-        pass
+    asyncio.run(main())
