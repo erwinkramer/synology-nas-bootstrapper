@@ -1,15 +1,19 @@
 import logging
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import asyncio
 import os
+
 import aiohttp
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from asusrouter import AsusRouter, AsusData
 from asusrouter.modules.port_forwarding import PortForwardingRule
 
 # --- Configuration ---
+
+
 def read_secret(name):
     with open(name) as f:
         return f.read().strip()
+
 
 NAS_PRIVATE_IP = os.getenv("NAS_PRIVATE_IP")
 ROUTER_HOST = os.getenv("ROUTER_HOST")
@@ -27,6 +31,8 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 # --- Core logic to handle the router connection with a reusable session ---
+
+
 async def with_router_session(session, func):
     """A context manager to manage the AsusRouter object lifecycle
     with a pre-existing aiohttp session."""
@@ -42,13 +48,17 @@ async def with_router_session(session, func):
         await func(router)
         await router.async_disconnect()
     except Exception:
-        log.exception(f"An error occurred while running task '{func.__name__}'")
+        log.exception(
+            f"An error occurred while running task '{func.__name__}'")
 
 # --- Task-specific async functions ---
+
+
 async def get_aimesh(router: AsusRouter):
     log.info("Starting get_aimesh task...")
     data = await router.async_get_data(AsusData.AIMESH)
     log.info("AiMesh info: %s", data)
+
 
 async def set_forwarding(router: AsusRouter):
     log.info("Starting set_forwarding task...")
@@ -68,11 +78,13 @@ async def set_forwarding(router: AsusRouter):
     log.info("Port forwarding rule set successfully: %s", data)
 
 # --- Scheduler setup ---
+
+
 async def main():
     """Main async function to start the scheduler and manage the aiohttp session."""
     async with aiohttp.ClientSession() as session:
         scheduler = AsyncIOScheduler()
-        
+
         scheduler.add_job(
             with_router_session,
             'date',
@@ -86,10 +98,10 @@ async def main():
             args=[session, set_forwarding],
             name="Set Port Forwarding every 15 minutes"
         )
-        
+
         log.info("Scheduler started.")
         scheduler.start()
-        
+
         try:
             while True:
                 await asyncio.sleep(3600)
