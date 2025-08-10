@@ -88,6 +88,8 @@ async def main():
 
     def shutdown(sig, frame):
         log.info("Shutdown signal received, shutting down gracefully...")
+        scheduler.shutdown(wait=True)
+        log.info("Scheduler shut down.")
         stop_event.set()
 
     # Register signal handlers for graceful shutdown
@@ -116,8 +118,6 @@ async def main():
         scheduler.start()
 
         await stop_event.wait()
-        scheduler.shutdown()
-        log.info("Scheduler shut down.")
 
 if __name__ == "__main__":
     asyncio.run(main())
