@@ -47,10 +47,11 @@ async def with_router_session(session, func):
     try:
         await router.async_connect()
         await func(router)
-        await router.async_disconnect()
     except Exception:
         log.exception(
             f"An error occurred while running task '{func.__name__}'")
+    finally:
+        await router.async_disconnect()
 
 # --- Task-specific async functions ---
 
