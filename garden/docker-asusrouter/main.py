@@ -6,7 +6,7 @@ import signal
 import aiohttp
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from asusrouter import AsusRouter, AsusData
-from asusrouter.modules.port_forwarding import PortForwardingRule
+from asusrouter.modules.port_forwarding import PortForwardingRule, AsusPortForwarding
 
 # --- Configuration ---
 
@@ -63,6 +63,9 @@ async def get_aimesh(router: AsusRouter):
 
 
 async def set_forwarding(router: AsusRouter):
+    enableforwardingdata = await router.async_set_state(AsusPortForwarding.ON)
+    log.info("Port forwarding set to enabled successfully: %s", enableforwardingdata)
+
     log.info("Starting set_forwarding task...")
     ruleTcp = PortForwardingRule(
         name="NAS_TCP",
@@ -76,8 +79,8 @@ async def set_forwarding(router: AsusRouter):
         port_external=50777,
         ip_address=NAS_PRIVATE_IP
     )
-    data = await router.async_apply_port_forwarding_rules([ruleTcp, ruleLayer4])
-    log.info("Port forwarding rule set successfully: %s", data)
+    forwardingdata = await router.async_apply_port_forwarding_rules([ruleTcp, ruleLayer4])
+    log.info("Port forwarding rules set successfully: %s", forwardingdata)
 
 # --- Scheduler setup ---
 
