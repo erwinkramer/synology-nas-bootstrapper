@@ -1,10 +1,14 @@
+from datetime import datetime
 import logging
 import asyncio
 import os
 import signal
 
 import aiohttp
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler import AsyncScheduler
+from apscheduler.triggers.date import DateTrigger
+from apscheduler.triggers.interval import IntervalTrigger
+
 from asusrouter import AsusRouter, AsusData
 from asusrouter.modules.port_forwarding import PortForwardingRule, AsusPortForwarding
 
@@ -64,7 +68,8 @@ async def get_aimesh(router: AsusRouter):
 
 async def set_forwarding(router: AsusRouter):
     enableforwardingdata = await router.async_set_state(AsusPortForwarding.ON)
-    log.info("Port forwarding set to enabled successfully: %s", enableforwardingdata)
+    log.info("Port forwarding set to enabled successfully: %s",
+             enableforwardingdata)
 
     log.info("Starting set_forwarding task...")
     ruleTcp = PortForwardingRule(
@@ -86,41 +91,42 @@ async def set_forwarding(router: AsusRouter):
 
 
 async def main():
-    """Main async function to start the scheduler and manage the aiohttp session."""
     stop_event = asyncio.Event()
+    session = aiohttp.ClientSession()
 
     def shutdown(sig, frame):
         log.info("Shutdown signal received, shutting down gracefully...")
-        scheduler.shutdown(wait=True)
-        log.info("Scheduler shut down.")
         stop_event.set()
 
-    # Register signal handlers for graceful shutdown
-    # SIGINT for local shutdown (Ctrl+C), SIGTERM for Docker
-    signal.signal(signal.SIGINT, shutdown)
-    signal.signal(signal.SIGTERM, shutdown)
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        signal.signal(sig, shutdown)
 
-    async with aiohttp.ClientSession() as session:
-        scheduler = AsyncIOScheduler()
-
-        scheduler.add_job(
+    async with AsyncScheduler() as scheduler:
+        await scheduler.add_schedule(
             with_router_session,
-            'date',
+            trigger=DateTrigger(run_time=datetime.now()),
             args=[session, get_aimesh],
-            name="Get AiMesh Info on Startup"
+            id="Get AiMesh Info on Startup"
         )
-        scheduler.add_job(
+        await scheduler.add_schedule(
             with_router_session,
-            'interval',
-            minutes=15,
+            trigger=IntervalTrigger(minutes=15),
             args=[session, set_forwarding],
-            name="Set Port Forwarding every 15 minutes"
+            id="Set Port Forwarding every 15 minutes"
         )
 
+        await scheduler.start_in_background()
         log.info("Scheduler started.")
-        scheduler.start()
 
         await stop_event.wait()
+
+        log.info("Stopping scheduler...")
+        await scheduler.stop()
+        await scheduler.wait_until_stopped()
+
+    await session.close()
+    log.info("HTTP session closed.")
+    log.info("Shutdown complete.")
 
 if __name__ == "__main__":
     asyncio.run(main())
