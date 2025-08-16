@@ -91,17 +91,19 @@ async def set_forwarding(router: AsusRouter):
 
 
 async def main():
-    stop_event = asyncio.Event()
     session = aiohttp.ClientSession()
+    scheduler = AsyncScheduler()
+    loop = asyncio.get_running_loop()
 
-    def shutdown(sig, frame):
-        log.info("Shutdown signal received, shutting down gracefully...")
-        stop_event.set()
+    def shutdown():
+        log.info("Shutdown initiated.")
+        asyncio.create_task(scheduler.stop())
 
+    # Register signal handlers
     for sig in (signal.SIGINT, signal.SIGTERM):
-        signal.signal(sig, shutdown)
+        loop.add_signal_handler(sig, shutdown)
 
-    async with AsyncScheduler() as scheduler:
+    async with scheduler:
         await scheduler.add_schedule(
             with_router_session,
             trigger=DateTrigger(run_time=datetime.now()),
@@ -114,19 +116,11 @@ async def main():
             args=[session, set_forwarding],
             id="Set Port Forwarding every 15 minutes"
         )
+        await scheduler.run_until_stopped()
+        await session.close()
+        log.info("HTTP session closed.")
 
-        await scheduler.start_in_background()
-        log.info("Scheduler started.")
-
-        await stop_event.wait()
-
-        log.info("Stopping scheduler...")
-        await scheduler.stop()
-        await scheduler.wait_until_stopped()
-
-    await session.close()
-    log.info("HTTP session closed.")
-    log.info("Shutdown complete.")
+    log.info("Script finished.")
 
 if __name__ == "__main__":
     asyncio.run(main())
