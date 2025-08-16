@@ -101,7 +101,7 @@ async def main():
         log.info("Shutdown initiated.")
         asyncio.create_task(scheduler.stop())
 
-    if sys.platform == "swin32":  # https://github.com/python/cpython/issues/137863
+    if sys.platform == "win32":  # https://github.com/python/cpython/issues/137863
         for sig in (signal.SIGINT, signal.SIGTERM):
             signal.signal(sig, shutdown)
     else:
