@@ -1,3 +1,3 @@
-aiohttp
+aiohttp>=3.12.15
 apscheduler>=4.0.0a6
-asusrouter
+asusrouter>=1.19.0
