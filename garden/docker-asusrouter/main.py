@@ -3,6 +3,7 @@ import logging
 import asyncio
 import os
 import signal
+import sys
 
 import aiohttp
 from apscheduler import AsyncScheduler
@@ -95,13 +96,17 @@ async def main():
     scheduler = AsyncScheduler()
     loop = asyncio.get_running_loop()
 
-    def shutdown():
+    # Single shutdown handler that works on all platforms
+    def shutdown(*args):
         log.info("Shutdown initiated.")
         asyncio.create_task(scheduler.stop())
 
-    # Register signal handlers
-    for sig in (signal.SIGINT, signal.SIGTERM):
-        loop.add_signal_handler(sig, shutdown)
+    if sys.platform == "win32":
+        for sig in (signal.SIGINT, signal.SIGTERM):
+            signal.signal(sig, shutdown)
+    else:
+        for sig in (signal.SIGINT, signal.SIGTERM):
+            loop.add_signal_handler(sig, shutdown)
 
     async with scheduler:
         await scheduler.add_schedule(
