@@ -1,3 +1,11 @@
+* Enable SSL/TLS on the SVRCONN channel
 ALTER CHANNEL('DEV.APP.SVRCONN') CHLTYPE(SVRCONN) SSLCIPH('ANY_TLS12')
-ALTER QMGR SSLKEYR('/mnt/mqm/pki/keys/mykey/key')
+
+* Optional: Require client authentication on the channel
+ALTER CHANNEL('DEV.APP.SVRCONN') CHLTYPE(SVRCONN) SSLCAUTH(REQUIRED)
+
+* Optional but recommended: Define CHLAUTH rule to allow only clients with valid certs
+SET CHLAUTH('DEV.APP.SVRCONN') TYPE(SSLPEERMAP) SSLPEER('CN=L,O=L,C=NL') USERSRC(MAP) MCAUSER('mqm') ACTION(ADD)
+
+* Refresh SSL security settings
 REFRESH SECURITY TYPE(SSL)

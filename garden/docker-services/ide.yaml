@@ -70,7 +70,7 @@ services:
       - MQ_QMGR_NAME=QM1
     volumes:
       - ../docker-ibmmq/configure.mqsc:/etc/mqm/configure.mqsc
-      - ../docker-ibmmq/keys:/mnt/mqm/pki/keys/mykey
+      - ../docker-ibmmq/keys:/etc/mqm/pki/keys/mykey
       - ../docker-ibmmq/entrypoint.sh:/etc/mqm/entrypoint.sh
     entrypoint: ["/bin/bash", "/etc/mqm/entrypoint.sh"]
     labels:
