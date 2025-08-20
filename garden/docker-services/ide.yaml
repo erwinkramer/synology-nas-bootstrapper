@@ -58,3 +58,26 @@ services:
       - 53:53/tcp
       - 53:53/udp
       - 5533:53/udp
+
+  ibm-mq:
+    container_name: ibmmq
+    image: icr.io/ibm-messaging/mq:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: genericAsContainerUser
+    environment:
+      - LICENSE=accept
+      - MQ_QMGR_NAME=QM1
+    volumes:
+      - ../docker-ibmmq/configure.mqsc:/etc/mqm/configure.mqsc
+      - ../docker-ibmmq/keys:/mnt/mqm/pki/keys/mykey
+      - ../docker-ibmmq/entrypoint.sh:/etc/mqm/entrypoint.sh
+    entrypoint: ["/bin/bash", "/etc/mqm/entrypoint.sh"]
+    labels:
+      caddy_0: ${private_protocol}ibmmq.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 9443}}"
+      caddy_0.import: tinyauth_forwarder *
+      caddy_1.layer4.:1414:
+      caddy_1.layer4.:1414.@a: "remote_ip ${private_ip_range}"
+      caddy_1.layer4.:1414.route: "@a"
+      caddy_1.layer4.:1414.route.proxy: "{{ upstreams 1414 }}"

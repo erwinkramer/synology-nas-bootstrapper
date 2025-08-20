@@ -13,7 +13,7 @@ Called from main.sh
 '
 
 declare -A ports=(
-	[tcp]="80 443 6432 50777 53"
+	[tcp]="80 443 6432 50777 1414 53"
 	[udp]="53"
 )
 groupnamedocker=$1

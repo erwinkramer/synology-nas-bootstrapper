@@ -41,6 +41,7 @@ services:
       - 443:443
       - 6432:6432 #postgres container
       - 50777:50777 #qbittorrent container
+      - 1414:1414 #ibm-mq container
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${host_data_config_path}:/data
