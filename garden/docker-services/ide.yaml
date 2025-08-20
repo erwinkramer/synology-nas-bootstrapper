@@ -68,11 +68,10 @@ services:
     environment:
       - LICENSE=accept
       - MQ_QMGR_NAME=QM1
-    volumes:
-      - ../docker-ibmmq/configure.mqsc:/etc/mqm/configure.mqsc
-      - ../docker-ibmmq/entrypoint.sh:/etc/mqm/entrypoint.sh
+    volumes: # https://www.ibm.com/docs/en/ibm-mq/9.4.x?topic=reference-mq-advanced-container-image#container-image-ref__file-system-mount-points__title__1
+      - ../docker-ibmmq/configure.mqsc:/etc/mqm/configure.mqsc 
       - ../docker-ibmmq/mykey:/etc/mqm/pki/keys/mykey
-    entrypoint: ["/bin/bash", "/etc/mqm/entrypoint.sh"]
+      - ../docker-ibmmq/config:/mnt/mqm
     labels:
       caddy_0: ${private_protocol}ibmmq.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 9443}}"
