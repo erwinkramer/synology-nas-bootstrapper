@@ -104,7 +104,7 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
 
 1. Provisions `qBittorrent` as a service via port 50777.
 
-1. Provisions `ibm-mq` as a service via port 1414.
+1. Provisions `ibm-mq` as a service via port 1414. With listener `DEV.LISTENER.TCP`, channel `DEV.APP.SVRCONN`, queue manager `QM1`, queue `DEV.QUEUE.1` and cert authentication.
 
 1. Provisions `coreDNS` as a service via port 53 (udp and tcp).
 
