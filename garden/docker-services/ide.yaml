@@ -64,14 +64,16 @@ services:
     image: icr.io/ibm-messaging/mq:latest
     extends:
       file: ../docker-common/base.yaml
-      service: genericAsContainerUser
+      service: generic
+    group_add:
+      - ${gid} # https://github.com/ibm-messaging/mq-container/issues/601
     environment:
       - LICENSE=accept
       - MQ_QMGR_NAME=QM1
     volumes: # https://www.ibm.com/docs/en/ibm-mq/9.4.x?topic=reference-mq-advanced-container-image#container-image-ref__file-system-mount-points__title__1
-      - ../docker-ibmmq/configure.mqsc:/etc/mqm/configure.mqsc 
+      - ../docker-ibmmq/configure.mqsc:/etc/mqm/configure.mqsc
       - ../docker-ibmmq/mykey:/etc/mqm/pki/keys/mykey
-      - ../docker-ibmmq/config:/mnt/mqm
+      - ${host_data_config_path}/ibmmq/:/mnt/mqm
     labels:
       caddy_0: ${private_protocol}ibmmq.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 9443}}"
