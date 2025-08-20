@@ -6,6 +6,7 @@
         "timonwong.shellcheck",
         "bierner.markdown-mermaid",
         "redhat.vscode-yaml",
-        "foxundermoon.shell-format"
+        "foxundermoon.shell-format",
+        "praxai.mqexplorer"
     ]
 }
