@@ -75,7 +75,7 @@ services:
       - ../docker-ibmmq/mykey:/etc/mqm/pki/keys/mykey
       - ${host_data_config_path}/ibmmq/:/mnt/mqm
     labels:
-      caddy_0: ${private_protocol}ibmmq.${private_domain}
+      caddy_0: ${private_protocol}ibmmq.${private_domain} # https://github.com/ibm-messaging/mq-container/issues/443
       caddy_0.reverse_proxy: "{{upstreams 9443}}"
       caddy_0.import: tinyauth_forwarder *
       caddy_1.layer4.:1414:
