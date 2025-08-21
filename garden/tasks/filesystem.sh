@@ -23,11 +23,10 @@ dockerfolders=(
     "projects/garden"
 )
 
-datafolders=(
+datafoldersOwnedByDocker=(
     "media/movies"
     "media/images"
     "downloads"
-    "config/ibmmq/data"
     "config/synology"
     "config/qBittorrent"
     "config/jellyfin/cache"
@@ -120,7 +119,7 @@ done
 
 echo "creating the data folder structure..."
 
-for folder in "${datafolders[@]}"; do
+for folder in "${datafoldersOwnedByDocker[@]}"; do
     folderpath="$volume/$sharedataname/$folder"
     mkdir -p $folderpath
 
