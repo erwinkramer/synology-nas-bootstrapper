@@ -70,7 +70,6 @@ services:
       - 9443:9443 # Expose it directly because we cannot disable the HTTPS endpoint in the container easily
     group_add:
       - ${gid} # https://github.com/ibm-messaging/mq-container/issues/601
-      - "65534" # https://github.com/ibm-messaging/mq-container/issues/510#issuecomment-1313860012
     environment:
       - LICENSE=accept
       - MQ_QMGR_NAME=QM1
