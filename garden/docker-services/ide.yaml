@@ -65,6 +65,7 @@ services:
     extends:
       file: ../docker-common/base.yaml
       service: generic
+    user: ${uid}
     ports:
       - 9443:9443 # Expose it directly because we cannot disable the HTTPS endpoint in the container easily
     group_add:
