@@ -1,11 +1,11 @@
-* Enable SSL/TLS on the SVRCONN channel
+-- Enable SSL/TLS on the SVRCONN channel
 ALTER CHANNEL('DEV.APP.SVRCONN') CHLTYPE(SVRCONN) SSLCIPH('ANY_TLS12')
 
-* Optional: Require client authentication on the channel
+-- Optional: Require clients to present a valid certificate for authentication
 ALTER CHANNEL('DEV.APP.SVRCONN') CHLTYPE(SVRCONN) SSLCAUTH(REQUIRED)
 
-* Optional but recommended: Define CHLAUTH rule to allow only clients with valid certs
+-- Optional but recommended: Disable CHLAUTH temporarily to allow SSL-based access
 ALTER QMGR CHLAUTH(DISABLED)
 
-* Refresh SSL security settings
+-- Apply and refresh SSL security settings
 REFRESH SECURITY TYPE(SSL)
