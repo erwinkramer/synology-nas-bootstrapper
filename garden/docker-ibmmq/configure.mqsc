@@ -1,15 +1,15 @@
--- On first boot without data this script gives: "Auto configuration MQSC definitions contain invalid syntax or illegal attributes."
--- Completely remove all content of this file (including comments), let it run till MQ is running. On the next run add the content again.
--- Also see: https://github.com/ibm-messaging/mq-container/issues/602
+* On first boot without data this script gives: "Auto configuration MQSC definitions contain invalid syntax or illegal attributes."
+* Completely remove all content of this file (including comments), let it run till MQ is running. On the next run add the content again.
+* Also see: https://github.com/ibm-messaging/mq-container/issues/602
 
--- Enable SSL/TLS on the SVRCONN channel
+* Enable SSL/TLS on the SVRCONN channel
 ALTER CHANNEL('DEV.APP.SVRCONN') CHLTYPE(SVRCONN) SSLCIPH('ANY_TLS12')
 
--- Optional: Require clients to present a valid certificate for authentication
+* Optional: Require clients to present a valid certificate for authentication
 ALTER CHANNEL('DEV.APP.SVRCONN') CHLTYPE(SVRCONN) SSLCAUTH(REQUIRED)
 
--- Optional but recommended: Disable CHLAUTH temporarily to allow SSL-based access
+* Optional but recommended: Disable CHLAUTH temporarily to allow SSL-based access
 ALTER QMGR CHLAUTH(DISABLED)
 
--- Apply and refresh SSL security settings
+* Apply and refresh SSL security settings
 REFRESH SECURITY TYPE(SSL)
