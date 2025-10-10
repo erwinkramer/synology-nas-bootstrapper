@@ -40,6 +40,7 @@ datafoldersOwnedByDocker=(
     "config/prowlarr"
     "config/bazarr"
     "config/windows"
+    "config/tinyauth"
 )
 
 declare -A user_credentials=(

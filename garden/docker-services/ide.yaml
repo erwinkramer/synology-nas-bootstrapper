@@ -19,7 +19,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:latest
+    image: postgres:18
     extends:
       file: ../docker-common/base.yaml
       service: genericAsContainerUser #accesses /var/run/postgresql
@@ -34,7 +34,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ${host_data_config_path}/postgres/data:/var/lib/postgresql/data
+      - ${host_data_config_path}/postgres/data:/var/lib/postgresql/18/docker
       - ${host_data_config_path}/postgres/scripts:/docker-entrypoint-initdb.d/
       - /etc/passwd:/etc/passwd:ro # see https://github.com/docker-library/docs/blob/master/postgres/README.md#arbitrary---user-notes
     secrets:

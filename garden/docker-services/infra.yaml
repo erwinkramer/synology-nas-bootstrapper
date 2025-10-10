@@ -66,17 +66,16 @@ services:
       service: genericReadOnlyAsContainerUserNoCap
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${host_data_config_path}/tinyauth:/data
     secrets:
       - github_client_secret
-      - tinyauth_cookie_secret
     environment:
       DISABLE_CONTINUE: true
       APP_URL: ${public_protocol}${public_auth_domain}
-      SECRET_FILE: /run/secrets/tinyauth_cookie_secret #used to encrypt the cookies, content has to be 32 characters
       OAUTH_WHITELIST: ${github_users_csv}
-      GITHUB_CLIENT_ID: ${github_client_id}
-      GITHUB_CLIENT_SECRET_FILE: /run/secrets/github_client_secret
-      LOG_LEVEL: 1 #0 for debug, 1 for info
+      PROVIDERS_GITHUB_CLIENT_ID: ${github_client_id}
+      PROVIDERS_GITHUB_CLIENT_SECRET_FILE: /run/secrets/github_client_secret
+      LOG_LEVEL: info # debug or info
     labels:
       caddy_0: ${public_protocol}${public_auth_domain}
       caddy_0.reverse_proxy: "{{upstreams 3000}}"
