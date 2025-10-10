@@ -70,7 +70,6 @@ services:
     secrets:
       - github_client_secret
     environment:
-      DISABLE_CONTINUE: true
       APP_URL: ${public_protocol}${public_auth_domain}
       OAUTH_WHITELIST: ${github_users_csv}
       PROVIDERS_GITHUB_CLIENT_ID: ${github_client_id}
