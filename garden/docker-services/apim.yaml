@@ -28,26 +28,39 @@ services:
       test: ["CMD", "curl", "-f", "http://opensearch:9200/_cat/health?v"]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
     environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - http.host=0.0.0.0
-      - transport.host=0.0.0.0
-      - cluster.name=opensearch
-      - bootstrap.memory_lock=true
-      - bootstrap.system_call_filter=false
-      - discovery.type=single-node
-      - plugins.security.disabled=true
-      - plugins.security.ssl.http.enabled=false
-      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${opensearch_pw} # minimum 8 character password and must contain at least one uppercase letter, one lowercase letter, one digit, and one special character that is strong.
+      cluster.name: opensearch
+      bootstrap.memory_lock: true
+      bootstrap.system_call_filter: false
+      discovery.type: single-node
+      plugins.security.disabled: true
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: ${opensearch_pw} # minimum 8 character password and must contain at least one uppercase letter, one lowercase letter, one digit, and one special character that is strong.
     ulimits:
       memlock:
         soft: -1
         hard: -1
       nofile: 65536
 
-  apim_gateway:
-    container_name: apim_gateway
+  opensearch-dashboards:
+    container_name: opensearch-dashboards
+    image: opensearchproject/opensearch-dashboards:2
+    extends:
+      file: ../docker-common/base.yaml
+      service: private
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: true
+    depends_on:
+      opensearch:
+        condition: service_healthy
+    labels:
+      caddy_0: ${private_protocol}opensearch.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 5601}}"
+      caddy_0.import: tinyauth_forwarder *
+
+  apim-gateway:
+    container_name: apim-gateway
     image: graviteeio/apim-gateway:4
     extends:
       file: ../docker-common/base.yaml
@@ -58,24 +71,22 @@ services:
       - ${host_data_config_path}/apim/gateway/logs:/opt/graviteeio-gateway/logs
       - ${host_data_config_path}/apim/gateway/plugins:/opt/graviteeio-gateway/plugins-ext
     depends_on:
-      mongodb: 
+      mongodb:
         condition: service_started
-      opensearch: 
+      opensearch:
         condition: service_healthy
     environment:
-      - gravitee_management_mongodb_uri=mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
-      - gravitee_ratelimit_mongodb_uri=mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
-      - gravitee_reporters_elasticsearch_endpoints_0=http://opensearch:9200
-      - gravitee_reporters_elasticsearch_security_username=admin
-      - gravitee_reporters_elasticsearch_security_password=${opensearch_pw}
-      - gravitee_plugins_path_0=/opt/graviteeio-gateway/plugins
-      - gravitee_plugins_path_1=/opt/graviteeio-gateway/plugins-ext
+      gravitee_management_mongodb_uri: mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
+      gravitee_ratelimit_mongodb_uri: mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
+      gravitee_reporters_elasticsearch_endpoints_0: http://opensearch:9200
+      gravitee_plugins_path_0: /opt/graviteeio-gateway/plugins
+      gravitee_plugins_path_1: /opt/graviteeio-gateway/plugins-ext
     labels:
       caddy_0: ${private_protocol}apim-api.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 8082}}"
 
-  apim_management_api:
-    container_name: apim_management_api
+  apim-management-api:
+    container_name: apim-management-api
     image: graviteeio/apim-management-api:4
     extends:
       file: ../docker-common/base.yaml
@@ -86,24 +97,22 @@ services:
       - ${host_data_config_path}/apim/managementapi/logs:/opt/graviteeio-management-api/logs
       - ${host_data_config_path}/apim/managementapi/plugins:/opt/graviteeio-management-api/plugins-ext
     depends_on:
-      mongodb: 
+      mongodb:
         condition: service_started
-      opensearch: 
+      opensearch:
         condition: service_healthy
     environment:
-      - gravitee_management_mongodb_uri=mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
-      - gravitee_analytics_elasticsearch_endpoints_0=http://opensearch:9200
-      - gravitee_analytics_elasticsearch_security_username=admin
-      - gravitee_analytics_elasticsearch_security_password=${opensearch_pw}
-      - gravitee_installation_standalone_portal_url=http://localhost:8085
-      - gravitee_plugins_path_0=/opt/graviteeio-management-api/plugins
-      - gravitee_plugins_path_1=/opt/graviteeio-management-api/plugins-ext
+      gravitee_management_mongodb_uri: mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
+      gravitee_analytics_elasticsearch_endpoints_0: http://opensearch:9200
+      gravitee_installation_standalone_portal_url: ${private_protocol}apim-portal.${private_domain}
+      gravitee_plugins_path_0: /opt/graviteeio-management-api/plugins
+      gravitee_plugins_path_1: /opt/graviteeio-management-api/plugins-ext
     labels:
       caddy_0: ${private_protocol}apim-management-api.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 8083}}"
 
-  apim_management_ui:
-    container_name: apim_management_ui
+  apim-management-ui:
+    container_name: apim-management-ui
     image: graviteeio/apim-management-ui:4
     extends:
       file: ../docker-common/base.yaml
@@ -113,15 +122,15 @@ services:
     volumes:
       - ${host_data_config_path}/apim/managementui/logs:/var/log/nginx
     depends_on:
-      - apim_management_api
+      - apim-management-api
     environment:
-      - MGMT_API_URL=${private_protocol}apim-management-api.${private_domain}/management/organizations/DEFAULT/environments/DEFAULT/
+      MGMT_API_URL: ${private_protocol}apim-management-api.${private_domain}/management/organizations/DEFAULT/environments/DEFAULT/
     labels:
       caddy_0: ${private_protocol}apim-management.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 8080}}"
 
-  apim_portal_ui:
-    container_name: apim_portal_ui
+  apim-portal-ui:
+    container_name: apim-portal-ui
     image: graviteeio/apim-portal-ui:4
     extends:
       file: ../docker-common/base.yaml
@@ -131,9 +140,9 @@ services:
     volumes:
       - ${host_data_config_path}/apim/portalui/logs:/var/log/nginx
     depends_on:
-      - apim_management_api
+      - apim-management-api
     environment:
-      - PORTAL_API_URL=${private_protocol}apim-management-api.${private_domain}/portal/environments/DEFAULT
+      PORTAL_API_URL: ${private_protocol}apim-management-api.${private_domain}/portal/environments/DEFAULT
     labels:
       caddy_0: ${private_protocol}apim-portal.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 8080}}"

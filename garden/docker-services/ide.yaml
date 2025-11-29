@@ -71,9 +71,9 @@ services:
     group_add:
       - ${gid} # https://github.com/ibm-messaging/mq-container/issues/601
     environment:
-      - LICENSE=accept
-      - MQ_QMGR_NAME=QM1
-      - MQ_ADMIN_PASSWORD=admin
+      LICENSE: accept
+      MQ_QMGR_NAME: QM1
+      MQ_ADMIN_PASSWORD: admin
     volumes: # https://www.ibm.com/docs/en/ibm-mq/9.4.x?topic=reference-mq-advanced-container-image#container-image-ref__file-system-mount-points__title__1
       - ../docker-ibmmq/configure.mqsc:/etc/mqm/configure.mqsc
       - ../docker-ibmmq/mykey:/etc/mqm/pki/keys/mykey

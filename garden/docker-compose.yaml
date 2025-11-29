@@ -19,4 +19,4 @@ include:
   - ./docker-services/observability.yaml
   - ./docker-services/media.yaml
   - ./docker-services/ide.yaml
-  - ./docker-services/gio.yaml
+  - ./docker-services/apim.yaml
