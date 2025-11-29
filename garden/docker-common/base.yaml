@@ -57,6 +57,9 @@ services:
   genericOnHostReadOnlyAsContainerUserNoCap:
     <<: [*base, *host_network, *readonly, *container_user, *no_caps]
 
+  private:
+    <<: [*base, *eden_network, *private_labels]
+
   privateReadOnly:
     <<: [*base, *eden_network, *readonly, *private_labels]
 

@@ -11,9 +11,12 @@ secrets:
     file: ./secrets/tinyauth_cookie_secret.txt
   cloudflare_api_token:
     file: ./secrets/cloudflare_api_token.txt
+  mongo_pw:
+    file: ./secrets/mongo_pw.txt
 
 include:
   - ./docker-services/infra.yaml
   - ./docker-services/observability.yaml
   - ./docker-services/media.yaml
   - ./docker-services/ide.yaml
+  - ./docker-services/gio.yaml

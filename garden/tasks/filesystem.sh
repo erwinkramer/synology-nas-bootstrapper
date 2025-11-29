@@ -32,6 +32,8 @@ datafoldersOwnedByDocker=(
     "config/jellyfin/cache"
     "config/jellyfin/config"
     "config/codeserver"
+    "config/mongo"
+    "config/opensearch/data"
     "config/postgres/data"
     "config/postgres/scripts"
     "config/caddy"
@@ -41,6 +43,12 @@ datafoldersOwnedByDocker=(
     "config/bazarr"
     "config/windows"
     "config/tinyauth"
+    "config/apim/gateway/logs"
+    "config/apim/gateway/plugins"
+    "config/apim/managementapi/logs"
+    "config/apim/managementapi/plugins"
+    "config/apim/managementui/logs"
+    "config/apim/portalui/logs"
 )
 
 declare -A user_credentials=(
