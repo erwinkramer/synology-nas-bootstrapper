@@ -5,7 +5,7 @@
 
 Bootstrap your Synology NAS setup with automatic provisioning for: filesystem structure, shares, users, groups, permissions, network, container orchestration and `.env` variables. Just configure the scheduled tasks and the Docker Compose `.env` file with your own dns and folder variables, that's it.
 
-Makes use of the Synology CLI [(pdf)](https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_DiskStation_Administration_CLI_Guide.pdf), Synology Task Scheduler and [Synology Container Manager](https://www.synology.com/nl-nl/dsm/feature/container-manager).
+Makes use of the Synology CLI [(pdf)](https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_DiskStation_Administration_CLI_Guide.pdf), Synology Task Scheduler and [Synology Container Manager](https://www.synology.com/en-us/dsm/feature/container-manager).
 
 ## Network Design
 
@@ -66,7 +66,7 @@ A Synology NAS, including:
 
 1. [Container Manager](https://www.synology.com/en-global/releaseNote/ContainerManager) `24.0.2-1525` or higher. Only this version supports Docker Compose `include` statements, introduced in Docker compose [2.20.3](https://docs.docker.com/compose/releases/release-notes/#2203), which this project uses.
 
-1. A compatible [DSM version](https://www.synology.com/nl-nl/releaseNote/DSM), confirmed to work on `7.2.2-72806` (Update 2 and 3).
+1. A compatible [DSM version](https://www.synology.com/en-us/releaseNote/DSM), confirmed to work on `7.2.2` and `7.3.x` .
 
 ## Synology configuration
 
