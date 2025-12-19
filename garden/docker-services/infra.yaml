@@ -24,6 +24,8 @@ services:
       NAS_PRIVATE_IP: ${private_ip}
     volumes:
       - ../docker-asusrouter:/app/scripts
+    labels:
+      com.centurylinklabs.watchtower.enable: false
 
   # for dozzle log errors in caddy, it's expected. See: https://github.com/amir20/dozzle/issues/2844
   caddy:
@@ -60,7 +62,7 @@ services:
 
   tinyauth:
     container_name: auth
-    image: ghcr.io/steveiliop56/tinyauth:latest
+    image: ghcr.io/steveiliop56/tinyauth:v4-distroless
     extends:
       file: ../docker-common/base.yaml
       service: genericReadOnlyAsContainerUserNoCap

@@ -19,7 +19,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:18
+    image: postgres:18-alpine
     extends:
       file: ../docker-common/base.yaml
       service: genericAsContainerUser #accesses /var/run/postgresql
