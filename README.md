@@ -78,9 +78,9 @@ Remove the `.example` postfix of the files in the [secrets folder](garden/secret
 
 ### Tasks
 
-The [tasks folder](./garden/tasks/) provides boot-up and shutdown scripts. 
+The [tasks folder](./garden/tasks/) provides boot-up and shutdown scripts.
 
-For shutdown, configure [garden/tasks/main-shutdown.sh](/garden/tasks/main-shutdown.sh) as specified in the comment of that script. 
+For shutdown, configure [garden/tasks/main-shutdown.sh](/garden/tasks/main-shutdown.sh) as specified in the comment of that script.
 
 For boot-up, configure [garden/tasks/main.sh](/garden/tasks/main.sh) as specified in the comment of that script. The following scripts are part of main:
 
@@ -115,16 +115,16 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
 | yes | https://auth.domain.wow | tinyauth itself |
 | yes | https://whoami.yourexternal.domain.wow | tinyauth |
 | yes | https://based.yourexternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
-| no  | http://based.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
-| no  | http://jellyfin.yourinternal.domain.wow | jellyfin |
-| no  | http://code.yourinternal.domain.wow | tinyauth |
-| no  | http://whoami.yourinternal.domain.wow | tinyauth |
-| no  | http://qbittorrent.yourinternal.domain.wow | tinyauth |
-| no  | http://dozzle.yourinternal.domain.wow | tinyauth |
-| no  | http://radarr.yourinternal.domain.wow | tinyauth |
-| no  | http://bazarr.yourinternal.domain.wow | tinyauth |
-| no  | http://prowlarr.yourinternal.domain.wow | tinyauth |
-| no  | http://ibmmq.yourinternal.domain.wow/ibmmq/console | tinyauth |
+| no | http://based.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
+| no | http://jellyfin.yourinternal.domain.wow | jellyfin |
+| no | http://code.yourinternal.domain.wow | tinyauth |
+| no | http://whoami.yourinternal.domain.wow | tinyauth |
+| no | http://qbittorrent.yourinternal.domain.wow | tinyauth |
+| no | http://dozzle.yourinternal.domain.wow | tinyauth |
+| no | http://radarr.yourinternal.domain.wow | tinyauth |
+| no | http://bazarr.yourinternal.domain.wow | tinyauth |
+| no | http://prowlarr.yourinternal.domain.wow | tinyauth |
+| no | http://ibmmq.yourinternal.domain.wow/ibmmq/console | tinyauth |
 
 If not public, it's;
 
@@ -135,7 +135,12 @@ If not public, it's;
 
 ### Jellyfin
 
-Transcoding settings in jellyfin admin dashboard, under <http://jellyfin.yourinternal.domain.wow/web/#/dashboard/playback/transcoding>. Specific for each CPU, assumes you're using a [Gemini Lake Refresh](https://en.wikipedia.org/wiki/Goldmont_Plus#Desktop_processors_(Gemini_Lake_Refresh)) model. Check for `init_hw_device` in logs to confirm it's working.
+Under user settings - `Video Advanced`, check:
+
+- Enable DTS (DCA)
+- Enable TrueHD
+
+Transcoding settings in Jellyfin admin dashboard, under <http://jellyfin.yourinternal.domain.wow/web/#/dashboard/playback/transcoding>. Specific for each CPU, assumes you're using a [Gemini Lake Refresh](https://en.wikipedia.org/wiki/Goldmont_Plus#Desktop_processors_(Gemini_Lake_Refresh)) model. Check for `init_hw_device` in logs to confirm it's working.
 
 Hardware acceleration: `Intel QuickSync`
 
@@ -166,7 +171,7 @@ Hardware encoding options:
 
 ### Radarr
 
-1. Go to `Settings` - `Connections` and configure `Jellyfin` with: 
+1. Go to `Settings` - `Connections` and configure `Jellyfin` with:
    - `Host` - `jellyfin`
    - `Port` - `8096`
 
@@ -174,7 +179,7 @@ Hardware encoding options:
 
 ### Prowlarr
 
-1. Go to `Settings` - `Apps` and configure `Radarr` with: 
+1. Go to `Settings` - `Apps` and configure `Radarr` with:
    - `Prowlarr Server` -  `http://prowlarr:9696`
    - `Radarr Server` - `http://radarr:7878`
 

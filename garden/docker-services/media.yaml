@@ -1,10 +1,7 @@
 services:
-  # Stay on 10.10.x until following issues are resolved:
-  #- https://github.com/jellyfin/jellyfin/issues/15242
-  #- https://github.com/jellyfin/jellyfin/issues/15988
   jellyfin:
     container_name: jellyfin
-    image: ghcr.io/jellyfin/jellyfin:10.10.7
+    image: ghcr.io/jellyfin/jellyfin:latest
     extends:
       file: ../docker-common/base.yaml
       service: privateAsContainerUserNoCap
@@ -22,6 +19,24 @@ services:
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
+
+  # run following in order to convert DV Profile 7 to DV Profile 8 and delete the original:
+  # dovi -batch -include-simple -r -y -delete
+  #
+  # or just scan for DV Profile 7 files:
+  # dovi -scan -r
+  dovi_convert:
+    container_name: dovi_convert
+    image: cryptochrome/dovi_convert:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: privateAsEnvironmentUser
+    volumes:
+      - ${host_data_media_path}:/data
+    labels:
+      caddy_0: ${private_protocol}dovi.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 7681}}"
+      caddy_0.import: tinyauth_forwarder *
 
   prowlarr:
     container_name: prowlarr
