@@ -1,7 +1,7 @@
 services:
   # Stay on 10.10.x until following issues are resolved:
   #- https://github.com/jellyfin/jellyfin/issues/15242
-  #- https://github.com/jellyfin/jellyfin/issues/15284
+  #- https://github.com/jellyfin/jellyfin/issues/15988
   jellyfin:
     container_name: jellyfin
     image: ghcr.io/jellyfin/jellyfin:10.10.7
