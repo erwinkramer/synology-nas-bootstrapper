@@ -49,6 +49,7 @@ datafoldersOwnedByDocker=(
     "config/apim/managementapi/plugins"
     "config/apim/managementui/logs"
     "config/apim/portalui/logs"
+    "config/envoy"
 )
 
 declare -A user_credentials=(

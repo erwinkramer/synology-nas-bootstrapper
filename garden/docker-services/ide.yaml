@@ -86,3 +86,22 @@ services:
       caddy_1.layer4.:1414.@a: "remote_ip ${private_ip_range}"
       caddy_1.layer4.:1414.route: "@a"
       caddy_1.layer4.:1414.route.proxy: "{{ upstreams 1414 }}"
+
+  envoy-proxy:
+    container_name: envoy-proxy
+    image: envoyproxy/envoy:distroless-v1.37-latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: privateReadOnlyAsContainerUserNoCap
+    environment:
+      ENVOY_UID: ${uid}
+      ENVOY_GID: ${gid}
+    volumes:
+      - ${host_data_config_path}/envoy/:/etc/envoy/
+    command: ["-c", "/etc/envoy/demo.yaml"]
+    labels:
+      caddy_0: ${private_protocol}envoy-admin.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 9901}}"
+      caddy_0.import: tinyauth_forwarder *
+      caddy_1: ${private_protocol}envoy.${private_domain}
+      caddy_1.reverse_proxy: "{{upstreams 10000}}"
