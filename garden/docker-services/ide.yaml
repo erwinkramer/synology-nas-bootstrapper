@@ -105,3 +105,31 @@ services:
       caddy_0.import: tinyauth_forwarder *
       caddy_1: ${private_protocol}envoy.${private_domain}
       caddy_1.reverse_proxy: "{{upstreams 10000}}"
+
+  apicurio:
+    container_name: apicurio
+    image: apicurio/apicurio-registry:latest-release
+    extends:
+      file: ../docker-common/base.yaml
+      service: privateAsContainerUserNoCap
+    environment:
+      QUARKUS_HTTP_CORS_ORIGINS: "*"
+      REGISTRY_AUTH_ANONYMOUS_READ_ACCESS_ENABLED: "true"
+    labels:
+      caddy_0: ${private_protocol}apicurio-api.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 8080}}"
+
+  apicurio-ui:
+    container_name: apicurio-ui
+    image: apicurio/apicurio-registry-ui:latest-release
+    extends:
+      file: ../docker-common/base.yaml
+      service: private
+    environment:
+      REGISTRY_API_URL: ${private_protocol}apicurio-api.${private_domain}/apis/registry/v3
+    labels:
+      caddy_0: ${private_protocol}apicurio.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 8080}}"
+      caddy_0.import: tinyauth_forwarder *
+    depends_on:
+      - apicurio
