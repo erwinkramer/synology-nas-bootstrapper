@@ -138,3 +138,16 @@ services:
       caddy_0.import: tinyauth_forwarder *
     depends_on:
       - apicurio
+
+  node-red:
+    container_name: node-red
+    image: nodered/node-red:latest
+    extends:
+      file: ../docker-common/base.yaml
+      service: privateAsContainerUserNoCap
+    volumes:
+      - ${host_data_config_path}/node-red/:/data
+    labels:
+      caddy_0: ${private_protocol}node-red.${private_domain}
+      caddy_0.reverse_proxy: "{{upstreams 1880}}"
+      caddy_0.import: tinyauth_forwarder *

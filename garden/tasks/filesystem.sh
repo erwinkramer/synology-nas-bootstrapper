@@ -50,6 +50,7 @@ datafoldersOwnedByDocker=(
     "config/apim/managementui/logs"
     "config/apim/portalui/logs"
     "config/envoy"
+    "config/node-red"
 )
 
 declare -A user_credentials=(
