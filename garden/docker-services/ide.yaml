@@ -115,6 +115,11 @@ services:
     environment:
       QUARKUS_HTTP_CORS_ORIGINS: "*"
       REGISTRY_AUTH_ANONYMOUS_READ_ACCESS_ENABLED: "true"
+      APICURIO_DATASOURCE_URL: 'jdbc:postgresql://postgres:6432/nasi'
+      APICURIO_DATASOURCE_USERNAME: admin
+      APICURIO_DATASOURCE_PASSWORD: 106243
+      APICURIO_STORAGE_KIND: "sql"
+      APICURIO_STORAGE_SQL_KIND: "postgresql"
     labels:
       caddy_0: ${private_protocol}apicurio-api.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 8080}}"

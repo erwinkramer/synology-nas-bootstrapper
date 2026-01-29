@@ -2,11 +2,11 @@
     "recommendations": [
         "streetsidesoftware.code-spell-checker",
         "ms-azuretools.vscode-docker",
-        "ckolkman.vscode-postgres",
         "timonwong.shellcheck",
         "bierner.markdown-mermaid",
         "redhat.vscode-yaml",
         "foxundermoon.shell-format",
-        "praxai.mqexplorer"
+        "praxai.mqexplorer",
+        "ms-ossdata.vscode-pgsql"
     ]
 }
