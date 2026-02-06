@@ -98,7 +98,7 @@ services:
       ENVOY_GID: ${gid}
     volumes:
       - ${host_data_config_path}/envoy/:/etc/envoy/
-    command: ["-c", "/etc/envoy/demo.yaml"]
+    command: ["--concurrency", "1", "-c", "/etc/envoy/demo.yaml"]
     labels:
       caddy_0: ${private_protocol}envoy-admin.${private_domain}
       caddy_0.reverse_proxy: "{{upstreams 9901}}"
