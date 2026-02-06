@@ -1,4 +1,11 @@
 {
     "files.eol": "\n",
-    "cSpell.enabled": true
+    "cSpell.enabled": true,
+    "runOnSave.commands": [
+        {
+            "match": ".*\\.edit\\.yaml$",
+            "command": "powershell -NoProfile -Command \"$target = '${file}' -replace '.edit.yaml$', '.yaml'; Copy-Item '${file}' -Destination ($target + '.tmp') -Force; Move-Item ($target + '.tmp') $target -Force\"",
+            "runIn": "backend"
+        }
+    ]
 }
