@@ -1,2 +1,13 @@
+
+### Default request that works
+### Should return 200 OK
 http://envoy.nasi.guanchen.nl/
-X-Api-Key: a
+X-Api-Key: h
+
+### Coraza WAF SQL injection test hits OWASP CRS rule 942100
+### Should return 403 Forbidden
+POST http://envoy.nasi.guanchen.nl/
+X-Api-Key: h
+Content-Type: application/x-www-form-urlencoded
+
+q=1' OR '1'='1' --
