@@ -89,10 +89,10 @@ services:
 
   envoy-proxy:
     container_name: envoy-proxy
-    image: envoyproxy/envoy:distroless-v1.37-latest
+    image: envoyproxy/envoy:contrib-v1.37-latest # https://github.com/envoyproxy/envoy/issues/43382
     extends:
       file: ../docker-common/base.yaml
-      service: privateReadOnlyAsContainerUserNoCap
+      service: privateAsContainerUserNoCap
     environment:
       ENVOY_UID: ${uid}
       ENVOY_GID: ${gid}
