@@ -62,7 +62,7 @@ services:
 
   tinyauth:
     container_name: auth
-    image: ghcr.io/steveiliop56/tinyauth:v4-distroless
+    image: ghcr.io/steveiliop56/tinyauth:v5.0.0-alpha.3-distroless
     extends:
       file: ../docker-common/base.yaml
       service: genericReadOnlyAsContainerUserNoCap
@@ -72,13 +72,13 @@ services:
     secrets:
       - github_client_secret
     environment:
-      APP_URL: ${public_protocol}${public_auth_domain}
-      OAUTH_WHITELIST: ${github_users_csv}
-      PROVIDERS_GITHUB_CLIENT_ID: ${github_client_id}
-      PROVIDERS_GITHUB_CLIENT_SECRET_FILE: /run/secrets/github_client_secret
-      DISABLE_ANALYTICS: true
-      DISABLE_UI_WARNINGS: true
-      LOG_LEVEL: info # debug or info
+      TINYAUTH_APPURL: ${public_protocol}${public_auth_domain}
+      TINYAUTH_OAUTH_WHITELIST: ${github_users_csv}
+      TINYAUTH_OAUTH_PROVIDERS_GITHUB_CLIENTID: ${github_client_id}
+      TINYAUTH_OAUTH_PROVIDERS_GITHUB_CLIENTSECRETFILE: /run/secrets/github_client_secret
+      TINYAUTH_DISABLEANALYTICS: true
+      TINYAUTH_DISABLEUIWARNINGS: true
+      TINYAUTH_LOG_LEVEL: info # debug or info
     labels:
       caddy_0: ${public_protocol}${public_auth_domain}
       caddy_0.reverse_proxy: "{{upstreams 3000}}"
