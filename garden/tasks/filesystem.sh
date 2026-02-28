@@ -76,6 +76,11 @@ declare -A share_permittedreadobjects=(
     ["tv"]="tv"
 )
 
+declare -A share_noaccessobjects=(
+    ["$sharedockername"]="tv"
+    ["$sharedataname"]="tv"
+)
+
 echo "creating the user structure..."
 
 for username in "${!user_credentials[@]}"; do
@@ -106,26 +111,36 @@ done
 
 echo "creating the share structure..."
 
-for sharename in "${!share_permittedreadwritegroups[@]}" "${!share_permittedreadobjects[@]}"; do
-    if [[ -n ${share_permittedreadwritegroups[$sharename]} ]]; then
-        permittedobject="@${share_permittedreadwritegroups[$sharename]}"
-        permission="RW"
-    elif [[ -n ${share_permittedreadobjects[$sharename]} ]]; then
-        permittedobject=${share_permittedreadobjects[$sharename]}
-        permission="RO"
-    fi
+set_share_and_permissions() {
+    local sharename="$1"
+    local permittedobject="$2"
+    local permission="$3"
 
-    if ! synoshare --get $sharename >/dev/null 2>&1; then
+    if ! synoshare --get "$sharename" >/dev/null 2>&1; then
         echo "setting share $sharename..."
         synoshare --add "$sharename" "${sharename^} folder" "$volume/$sharename" "" "" "" 1 0
     else
         echo "share '$sharename' already exists"
     fi
 
-    echo "setting share permission on $sharename for user or group $permittedobject with $permission access..."
+    echo "setting share permission on $sharename for $permittedobject with $permission access..."
     if ! synoshare --setuser "$sharename" $permission + "$permittedobject" >/dev/null 2>&1; then
-        echo "Error setting share permission on $sharename for user or group $permittedobject"
+        echo "Error setting share permission on $sharename for $permittedobject"
     fi
+}
+
+# Iterate through all shares and set permissions for all relevant users/groups
+for sharename in "${!share_permittedreadwritegroups[@]}"; do
+    group="@${share_permittedreadwritegroups[$sharename]}"
+    set_share_and_permissions "$sharename" "$group" "RW"
+done
+for sharename in "${!share_permittedreadobjects[@]}"; do
+    user="${share_permittedreadobjects[$sharename]}"
+    set_share_and_permissions "$sharename" "$user" "RO"
+done
+for sharename in "${!share_noaccessobjects[@]}"; do
+    user="${share_noaccessobjects[$sharename]}"
+    set_share_and_permissions "$sharename" "$user" "NA"
 done
 
 echo "creating the data folder structure..."
