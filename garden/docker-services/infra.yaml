@@ -62,7 +62,7 @@ services:
 
   tinyauth:
     container_name: auth
-    image: ghcr.io/steveiliop56/tinyauth:v5.0.0-rc.1-distroless
+    image: ghcr.io/steveiliop56/tinyauth:v5-distroless
     extends:
       file: ../docker-common/base.yaml
       service: genericReadOnlyAsContainerUserNoCap
@@ -76,8 +76,9 @@ services:
       TINYAUTH_OAUTH_WHITELIST: ${github_users_csv}
       TINYAUTH_OAUTH_PROVIDERS_GITHUB_CLIENTID: ${github_client_id}
       TINYAUTH_OAUTH_PROVIDERS_GITHUB_CLIENTSECRETFILE: /run/secrets/github_client_secret
-      TINYAUTH_DISABLEANALYTICS: true
-      TINYAUTH_UI_DISABLEWARNINGS: true
+      TINYAUTH_ANALYTICS_ENABLED: false
+      TINYAUTH_UI_TITLE: "Garden"
+      TINYAUTH_UI_WARNINGSENABLED: false
       TINYAUTH_LOG_LEVEL: info # debug or info
     labels:
       caddy_0: ${public_protocol}${public_auth_domain}
