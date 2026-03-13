@@ -117,7 +117,7 @@ services:
       REGISTRY_AUTH_ANONYMOUS_READ_ACCESS_ENABLED: "true"
       APICURIO_DATASOURCE_URL: "jdbc:postgresql://postgres:6432/nasi"
       APICURIO_DATASOURCE_USERNAME: admin
-      APICURIO_DATASOURCE_PASSWORD: 106243
+      APICURIO_DATASOURCE_PASSWORD: 106243 # https://github.com/Apicurio/apicurio-registry/issues/7219
       APICURIO_STORAGE_KIND: "sql"
       APICURIO_STORAGE_SQL_KIND: "postgresql"
     labels:
@@ -126,7 +126,7 @@ services:
 
   apicurio-ui:
     container_name: apicurio-ui
-    image: apicurio/apicurio-registry-ui:latest-release
+    image: apicurio/apicurio-registry-ui:3.1.7 # https://github.com/Apicurio/apicurio-registry/issues/7554
     extends:
       file: ../docker-common/base.yaml
       service: private
