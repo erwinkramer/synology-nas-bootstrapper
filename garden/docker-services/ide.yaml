@@ -108,7 +108,7 @@ services:
 
   apicurio:
     container_name: apicurio
-    image: apicurio/apicurio-registry:latest-release
+    image: apicurio/apicurio-registry:3.2.0 # https://github.com/Apicurio/apicurio-registry/issues/7554
     extends:
       file: ../docker-common/base.yaml
       service: privateAsContainerUserNoCap
