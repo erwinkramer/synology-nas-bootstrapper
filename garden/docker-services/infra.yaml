@@ -62,7 +62,7 @@ services:
 
   tinyauth:
     container_name: auth
-    image: ghcr.io/steveiliop56/tinyauth:v5-distroless
+    image: ghcr.io/tinyauthapp/tinyauth:v5
     extends:
       file: ../docker-common/base.yaml
       service: genericReadOnlyAsContainerUserNoCap
