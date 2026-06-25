@@ -61,7 +61,7 @@ services:
 
   ibm-mq:
     container_name: ibmmq
-    image: icr.io/ibm-messaging/mq:latest
+    image: icr.io/ibm-messaging/mq:9.4.5.0-r2 # see known issue on 9.4.5.1-r1: https://www.ibm.com/docs/en/ibm-mq/9.4.x?topic=about-release-history-queue-manager-container-images#ctr_release_notes_qm__ctr-9.4.5.1-r1__title__1
     extends:
       file: ../docker-common/base.yaml
       service: generic
