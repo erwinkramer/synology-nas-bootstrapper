@@ -112,19 +112,19 @@ The [docker-compose.yaml file](./garden/docker-compose.yaml) configures all cont
 
 | public | Uri | Authentication |
 | --- | --- | -- |
-| yes | https://auth.domain.wow | tinyauth itself |
-| yes | https://whoami.yourexternal.domain.wow | tinyauth |
-| yes | https://based.yourexternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
-| no | http://based.yourinternal.domain.wow | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
-| no | http://jellyfin.yourinternal.domain.wow | jellyfin |
-| no | http://code.yourinternal.domain.wow | tinyauth |
-| no | http://whoami.yourinternal.domain.wow | tinyauth |
-| no | http://qbittorrent.yourinternal.domain.wow | tinyauth |
-| no | http://dozzle.yourinternal.domain.wow | tinyauth |
-| no | http://radarr.yourinternal.domain.wow | tinyauth |
-| no | http://bazarr.yourinternal.domain.wow | tinyauth |
-| no | http://prowlarr.yourinternal.domain.wow | tinyauth |
-| no | http://ibmmq.yourinternal.domain.wow/ibmmq/console | tinyauth |
+| yes | <https://auth.domain.wow> | tinyauth itself |
+| yes | <https://whoami.yourexternal.domain.wow> | tinyauth |
+| yes | <https://based.yourexternal.domain.wow> | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
+| no | <http://based.yourinternal.domain.wow> | [DSM](https://kb.synology.com/en-af/DSM/help/DSM/AdminCenter/system_login_portal_dsm) |
+| no | <http://jellyfin.yourinternal.domain.wow> | jellyfin |
+| no | <http://code.yourinternal.domain.wow> | tinyauth |
+| no | <http://whoami.yourinternal.domain.wow> | tinyauth |
+| no | <http://qbittorrent.yourinternal.domain.wow> | tinyauth |
+| no | <http://dozzle.yourinternal.domain.wow> | tinyauth |
+| no | <http://radarr.yourinternal.domain.wow> | tinyauth |
+| no | <http://bazarr.yourinternal.domain.wow> | tinyauth |
+| no | <http://prowlarr.yourinternal.domain.wow> | tinyauth |
+| no | <http://ibmmq.yourinternal.domain.wow/ibmmq/console> | tinyauth |
 
 If not public, it's;
 
